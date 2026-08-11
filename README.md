@@ -40,6 +40,7 @@ content/
   publications.md          "Publications"         (#/publications)
   datasets.md              "Datasets"             (#/datasets)
   news.md                  "News"                 (#/news)
+  media/                   images used by the pages above
   data/                    GENERATED — do not edit by hand
     publications.md
     datasets.md
@@ -149,6 +150,19 @@ A page can pull in another Markdown file with an include directive:
 The included file is rendered separately and wrapped in a `.record-list`
 container, which is how the Pure-generated lists get their own styling without
 affecting the surrounding prose.
+
+### Images
+
+Put image files in `content/media/` and reference them from the page root, the
+way the pages are served:
+
+```markdown
+![](content/media/your-picture.jpg)
+```
+
+Keep images local rather than hotlinking. The site is self-contained by design,
+and the pages that came across from the old WordPress site originally pointed at
+`brainlab.itu.dk` uploads — those copies now live here.
 
 ### Embedding a video
 

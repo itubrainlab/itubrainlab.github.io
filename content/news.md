@@ -15,7 +15,7 @@ Julie and Gino will be at CHI 2025 in Yokohama to present their poster on elicit
 
 On Tuesday, we welcomed a group of students from the International School of Hellerup. They had a tour of the IT University of Copenhagen, the Game lab and the brAIn lab, where they enjoyed [some immersive VR experiences and a peak into our research](https://www.facebook.com/share/p/1AAdscxGcP/?mibextid=wwXIfr). It was a great experience for the students and us, hopefully igniting the spark of curiosity in future scientists.
 
-![](https://brainlab.itu.dk/wp-content/uploads/sites/129/2025/03/WhatsApp-Image-2025-03-26-at-11.09.59-225x300.jpeg)
+![](content/media/WhatsApp-Image-2025-03-26-at-11-09-59-225x300.jpeg)
 
 ## Update from the lab
 
@@ -78,7 +78,7 @@ Here are a few of the ideas from the slides, if you can’t see the pdf:
 
 *August 16, 2023*
 
-![](https://brainlab.itu.dk/wp-content/uploads/sites/129/2023/08/cogboston-2048x1152-1-300x169.png)  
+![](content/media/cogboston-2048x1152-1-300x169.png)  
 The team is going to attend the [IEEE Conference on Games](https://2023.ieee-cog.org/) to present three different research works:
 
 - [Investigating the Uncanny Valley Phenomenon Through the Temporal Dynamics of Neural Responses to Virtual Characters](https://arxiv.org/abs/2306.16233):  
