@@ -180,7 +180,15 @@ lazy-loaded, so a long gallery does not hold up the rest of the page.
 
 Photos straight off a camera are far too big to commit — the eight lab-opening
 originals were 18MB. Resize before adding, e.g. `sips -Z 1200 -s format jpeg
--s formatOptions 80 original.JPG --out content/media/name.jpg`.
+-s formatOptions 80 original.JPG --out content/media/name.jpg`. Around 1200px is
+a good target: comfortably sharp in the lightbox without bloating the repo.
+
+Content images open full size in a lightbox when clicked. Images in the same
+gallery paragraph can be paged through with the on-screen arrows or the left and
+right arrow keys; Escape, the close button or a click on the backdrop dismisses
+it. An image's alt text, if it has any, becomes the caption. Portraits in the
+people list are deliberately excluded — they are only 320px, so enlarging them
+would just show a blurry crop.
 
 ### Embedding a video
 

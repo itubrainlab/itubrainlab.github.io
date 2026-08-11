@@ -201,6 +201,78 @@ img { max-width: 100%; height: auto; }
   margin: 0;
 }
 
+/* Content photos open in the lightbox; portraits in the people list do not. */
+.entry-content p > img { cursor: zoom-in; }
+.record-list p > img { cursor: default; }
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 64px;
+  background: rgba(10, 10, 10, .88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 100%;
+  max-height: 100%;
+}
+.lightbox-figure img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+}
+.lightbox-figure figcaption {
+  color: #ddd;
+  font-size: .875rem;
+  text-align: center;
+  max-width: 60ch;
+}
+.lightbox-figure figcaption[hidden] { display: none; }
+
+.lightbox-btn {
+  position: absolute;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .22);
+  color: #fff;
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  font-size: 26px; line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s;
+}
+.lightbox-btn:hover { background: var(--red); border-color: var(--red); }
+.lightbox-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lightbox-btn[hidden] { display: none; }
+
+.lightbox-close { top: 20px; right: 20px; }
+.lightbox-prev { left: 14px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 14px; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 620px) {
+  .lightbox { padding: 56px 12px; }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+}
+
 /* Video embeds: a link alone on its own line becomes a player (see
    embedVideos() in app.js). Sized by aspect ratio so it stays responsive. */
 .video-embed {

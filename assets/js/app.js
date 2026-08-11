@@ -295,6 +295,108 @@
     }).catch(function () { /* the page is fine without it */ });
   }
 
+  /* ---------- lightbox ---------- */
+
+  /* Content photos open full size. Portraits in the people list are excluded:
+     they are only 320px to begin with, so blowing them up gains nothing. */
+  function isZoomable(img) {
+    return img.tagName === 'IMG' &&
+           els.content.contains(img) &&
+           !img.closest('.record-list');
+  }
+
+  /* Images in the same paragraph form a gallery you can page through; a lone
+     image is a group of one. */
+  function groupFor(img) {
+    var p = img.parentNode;
+    var siblings = p ? p.querySelectorAll(':scope > img') : [];
+    return siblings.length > 1 ? Array.prototype.slice.call(siblings) : [img];
+  }
+
+  var lightbox = null;
+
+  function buildLightbox() {
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.hidden = true;
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Image viewer');
+    box.innerHTML =
+      '<button class="lightbox-btn lightbox-close" type="button" aria-label="Close">&#215;</button>' +
+      '<button class="lightbox-btn lightbox-prev" type="button" aria-label="Previous image">&#8249;</button>' +
+      '<button class="lightbox-btn lightbox-next" type="button" aria-label="Next image">&#8250;</button>' +
+      '<figure class="lightbox-figure"><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(box);
+
+    var state = { group: [], index: 0, lastFocus: null };
+
+    var img = box.querySelector('img');
+    var cap = box.querySelector('figcaption');
+    var prev = box.querySelector('.lightbox-prev');
+    var next = box.querySelector('.lightbox-next');
+
+    function show(i) {
+      state.index = (i + state.group.length) % state.group.length;
+      var src = state.group[state.index];
+      img.src = src.currentSrc || src.src;
+      var text = src.getAttribute('alt') || '';
+      cap.textContent = text;
+      cap.hidden = !text;
+      var many = state.group.length > 1;
+      prev.hidden = next.hidden = !many;
+      box.setAttribute('aria-label',
+        many ? 'Image ' + (state.index + 1) + ' of ' + state.group.length : 'Image viewer');
+    }
+
+    function open(target) {
+      state.group = groupFor(target);
+      state.lastFocus = document.activeElement;
+      box.hidden = false;
+      document.body.style.overflow = 'hidden';
+      show(state.group.indexOf(target));
+      box.querySelector('.lightbox-close').focus();
+    }
+
+    function close() {
+      box.hidden = true;
+      img.removeAttribute('src');
+      document.body.style.overflow = '';
+      if (state.lastFocus && state.lastFocus.focus) state.lastFocus.focus();
+    }
+
+    box.addEventListener('click', function (e) {
+      if (e.target.closest('.lightbox-close')) return close();
+      if (e.target.closest('.lightbox-prev')) return show(state.index - 1);
+      if (e.target.closest('.lightbox-next')) return show(state.index + 1);
+      if (!e.target.closest('.lightbox-figure')) close();   // click the backdrop
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (box.hidden) return;
+      if (e.key === 'Escape') { close(); }
+      else if (e.key === 'ArrowLeft' && state.group.length > 1) { show(state.index - 1); }
+      else if (e.key === 'ArrowRight' && state.group.length > 1) { show(state.index + 1); }
+      else if (e.key === 'Tab') { e.preventDefault(); }   // keep focus in the dialog
+      else { return; }
+      e.stopPropagation();
+    });
+
+    return { open: open, close: close, el: box };
+  }
+
+  function setupLightbox() {
+    lightbox = buildLightbox();
+    els.content.addEventListener('click', function (e) {
+      var img = e.target;
+      if (!isZoomable(img)) return;
+      // an image wrapped in a link should follow the link instead
+      if (img.closest('a')) return;
+      e.preventDefault();
+      lightbox.open(img);
+    });
+  }
+
   /* ---------- boot ---------- */
 
   els.toggle.addEventListener('click', function () {
@@ -305,6 +407,7 @@
   window.addEventListener('hashchange', render);
 
   if (!location.hash) location.replace('#/' + DEFAULT_ROUTE);
+  setupLightbox();
   render();
   renderNewsSidebar();
   mountBackground();
