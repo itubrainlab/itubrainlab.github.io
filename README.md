@@ -1,8 +1,6 @@
 # ITU brAIn lab — static site
 
-A client-side rebuild of [brainlab.itu.dk](https://brainlab.itu.dk/), keeping the
-original red-and-black palette (`#bc0020` on `#111`) and page structure.
-
+Official page of the ITU brAIn lab.
 Every page's text lives in a Markdown file under `content/`. There is no build
 step, no bundler and no framework — one HTML shell, one stylesheet, one small
 router script, and a vendored copy of [marked](https://marked.js.org/) to turn
