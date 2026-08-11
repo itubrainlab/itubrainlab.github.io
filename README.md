@@ -290,21 +290,7 @@ listing both coordinators, the page is simply a Lab Members list.
 
 To change who is a coordinator, edit that constant and re-run the script.
 
-**On the datasets source:** the human-readable listing at
-`pure.itu.dk/en/organisations/brain-lab/datasets/` is behind a Cloudflare
-browser challenge and returns 403 to any script. The `?format=rss` view of the
-same listing is not challenged and carries the same records, so the script
-reads that instead.
-
-**On `--lang`:** the feeds default to the English portal, so record types read
-"Research output: Theses › PhD thesis" and "Dataset". Run with `--lang da` for
-the Danish portal instead ("Publikation: Afhandlinger › Ph.d.-afhandling",
-"Datasæt"); note that it also changes the `pure.itu.dk/...` links in the
-generated files.
-
 ## Notes
 
-- The News content was carried over from the original WordPress site; it is
-  static Markdown and is not touched by `update.py`.
 - `assets/js/marked.min.js` is the only third-party file. Replacing it means
   swapping one `<script>` tag.
