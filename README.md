@@ -1,4 +1,4 @@
-# ITU brAIn lab — static site
+# ITU brAIn lab
 
 Official page of the ITU brAIn lab.
 Every page's text lives in a Markdown file under `content/`. There is no build
