@@ -164,6 +164,24 @@ Keep images local rather than hotlinking. The site is self-contained by design,
 and the pages that came across from the old WordPress site originally pointed at
 `brainlab.itu.dk` uploads — those copies now live here.
 
+Several images on consecutive lines, with no blank line between them, become a
+responsive gallery grid:
+
+```markdown
+![](content/media/lab-opening/dsc_0074.jpg)
+![](content/media/lab-opening/dsc_0076.jpg)
+![](content/media/lab-opening/dsc_0078.jpg)
+```
+
+That is one Markdown paragraph, so the images end up as siblings in a single
+`<p>`, which the stylesheet turns into a grid (`p:has(img + img)`). A blank line
+between them instead gives you separate full-width images. Content images are
+lazy-loaded, so a long gallery does not hold up the rest of the page.
+
+Photos straight off a camera are far too big to commit — the eight lab-opening
+originals were 18MB. Resize before adding, e.g. `sips -Z 1200 -s format jpeg
+-s formatOptions 80 original.JPG --out content/media/name.jpg`.
+
 ### Embedding a video
 
 Put a YouTube or Vimeo link **alone on its own line** and it becomes a player:

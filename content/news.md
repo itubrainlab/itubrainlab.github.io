@@ -38,7 +38,16 @@ We have a series of new and exciting projects underway in the lab, including som
 
 After a couple of years of “underground” activity, we had our official lab opening last month. You can also find us on the official ITU page: [https://en.itu.dk/Programmes/Student-Life/Labs-at-ITU.](https://en.itu.dk/Programmes/Student-Life/Labs-at-ITU)
 
-Pictures from the opening event are on the [original lab site](https://brainlab.itu.dk/lab-opening/).
+Some pictures from the opening event:
+
+![](content/media/lab-opening/dsc_0074.jpg)
+![](content/media/lab-opening/dsc_0076.jpg)
+![](content/media/lab-opening/dsc_0078.jpg)
+![](content/media/lab-opening/dsc_0080.jpg)
+![](content/media/lab-opening/dsc_0082.jpg)
+![](content/media/lab-opening/dsc_0091.jpg)
+![](content/media/lab-opening/dsc_0093.jpg)
+![](content/media/lab-opening/dsc_0096.jpg)
 
 ## ACG 2023 Talk Video
 

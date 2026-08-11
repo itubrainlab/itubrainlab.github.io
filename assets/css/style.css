@@ -184,6 +184,23 @@ img { max-width: 100%; height: auto; }
 
 .entry-content img { border-radius: 4px; display: block; }
 
+/* A paragraph holding several images in a row becomes a gallery grid. Write
+   the images on consecutive lines with no blank line between them. */
+.entry-content p:has(img + img) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  margin: 24px 0 30px;
+}
+.entry-content p:has(img + img) img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 0;
+}
+
 /* Video embeds: a link alone on its own line becomes a player (see
    embedVideos() in app.js). Sized by aspect ratio so it stays responsive. */
 .video-embed {

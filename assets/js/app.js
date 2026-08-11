@@ -171,6 +171,11 @@
 
       return renderWithIncludes(parsed.body).then(function (html) {
         els.content.innerHTML = html;
+        // a news gallery can be a dozen photos; do not block the page on them
+        els.content.querySelectorAll('img').forEach(function (img) {
+          img.loading = 'lazy';
+          img.decoding = 'async';
+        });
         embedVideos();
         decorateExternalLinks();
         if (route.name === 'news') tagNewsEntries();
