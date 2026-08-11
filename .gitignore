@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# python
+__pycache__/
+*.py[cod]
+
+# scratch output from scripts/update.py (atomic writes)
+*.tmp

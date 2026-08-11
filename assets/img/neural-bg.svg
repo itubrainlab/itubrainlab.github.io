@@ -1,0 +1,370 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" width="1600" height="1000">
+<style>
+  @keyframes nbg-fire { 0%, 100% { opacity: 0.25 } 50% { opacity: 1 } }
+  @keyframes nbg-drift {
+    0%, 100% { transform: translate(0, 0) }
+    50% { transform: translate(-8px, 5px) }
+  }
+  /* A discharge: darts the length of the path, then the connection
+     sits dark for the rest of the cycle. */
+  @keyframes nbg-signal {
+    0%          { stroke-dashoffset: 100; opacity: 0 }
+    2%          { opacity: 1 }
+    26%   { opacity: 1 }
+    30%   { stroke-dashoffset: 0; opacity: 0 }
+    100%        { stroke-dashoffset: 0; opacity: 0 }
+  }
+  /* uneven, so the core reads as an arc rather than a clean tracer */
+  @keyframes nbg-arc {
+    0%, 100% { stroke-opacity: 0.100 }
+    14%       { stroke-opacity: 0.045 }
+    22%       { stroke-opacity: 0.125 }
+    39%       { stroke-opacity: 0.045 }
+    56%       { stroke-opacity: 0.100 }
+    68%       { stroke-opacity: 0.045 }
+    83%       { stroke-opacity: 0.125 }
+  }
+  .nbg-net { animation: nbg-drift 90s ease-in-out infinite; }
+  .nbg-fires {
+    animation-name: nbg-fire;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  .nbg-signal {
+    animation-name: nbg-signal;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  /* the core carries the dart AND a fast flicker; they touch different
+     properties (opacity vs stroke-opacity) so they do not fight */
+  .nbg-core {
+    animation-name: nbg-signal, nbg-arc;
+    animation-timing-function: linear, steps(1, end);
+    animation-iteration-count: infinite, infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nbg-net, .nbg-fires { animation: none }
+    .nbg-signal, .nbg-core { display: none }
+  }
+</style>
+<g class="nbg-net">
+<g fill="none" stroke="#111111" stroke-opacity="0.040" stroke-width="1">
+<path d="M963.9 749.2 Q1011.8 709.5 1044.1 656.4"/>
+<path d="M963.9 749.2 Q904.2 825.8 863.8 914.1"/>
+<path d="M963.9 749.2 Q963.3 804.6 973.9 858.9"/>
+<path d="M433.5 177.9 Q484.7 225.2 548.7 253.1"/>
+<path d="M433.5 177.9 Q418.3 248.2 397.1 317.0"/>
+<path d="M433.5 177.9 Q442.5 112.0 427.2 47.4"/>
+<path d="M1131.7 835.8 Q1080.1 749.9 1044.1 656.4"/>
+<path d="M1131.7 835.8 Q1203.2 816.4 1272.5 790.1"/>
+<path d="M1131.7 835.8 Q1053.6 852.6 973.9 858.9"/>
+<path d="M1131.7 835.8 Q1198.4 873.5 1245.5 933.9"/>
+<path d="M548.7 253.1 Q473.6 286.7 397.1 317.0"/>
+<path d="M548.7 253.1 Q611.6 254.1 670.9 233.3"/>
+<path d="M548.7 253.1 Q588.4 314.9 603.0 386.9"/>
+<path d="M548.7 253.1 Q633.7 180.2 687.4 81.9"/>
+<path d="M228.9 85.9 Q185.7 161.5 158.6 244.1"/>
+<path d="M228.9 85.9 Q154.7 64.8 79.7 47.1"/>
+<path d="M228.9 85.9 Q324.4 47.8 427.2 47.4"/>
+<path d="M954.6 207.1 Q1017.2 152.2 1079.7 97.3"/>
+<path d="M954.6 207.1 Q1023.0 207.2 1091.3 210.8"/>
+<path d="M954.6 207.1 Q868.6 250.3 793.0 309.7"/>
+<path d="M87.1 340.6 Q113.8 285.7 158.6 244.1"/>
+<path d="M87.1 340.6 Q105.1 429.4 87.6 518.4"/>
+<path d="M87.1 340.6 Q164.2 383.7 250.8 400.9"/>
+<path d="M397.1 317.0 Q332.1 373.1 250.8 400.9"/>
+<path d="M670.9 233.3 Q686.6 158.4 687.4 81.9"/>
+<path d="M670.9 233.3 Q726.5 280.3 793.0 309.7"/>
+<path d="M1520.1 612.1 Q1468.3 680.4 1394.2 723.6"/>
+<path d="M1520.1 612.1 Q1525.8 514.4 1552.9 420.5"/>
+<path d="M1149.9 384.5 Q1089.2 247.1 1079.7 97.3"/>
+<path d="M1149.9 384.5 Q1133.9 293.1 1091.3 210.8"/>
+<path d="M1149.9 384.5 Q1210.8 378.7 1271.7 385.2"/>
+<path d="M1149.9 384.5 Q1051.9 426.8 945.2 431.5"/>
+<path d="M1149.9 384.5 Q1094.0 416.6 1051.8 465.3"/>
+<path d="M1462.0 812.6 Q1434.6 763.1 1394.2 723.6"/>
+<path d="M1462.0 812.6 Q1420.9 849.9 1375.3 881.7"/>
+<path d="M414.8 694.0 Q488.6 703.2 562.9 701.2"/>
+<path d="M414.8 694.0 Q329.1 706.4 243.2 716.7"/>
+<path d="M603.0 386.9 Q629.8 466.2 670.9 539.1"/>
+<path d="M1307.6 531.5 Q1285.4 590.0 1283.7 652.5"/>
+<path d="M1307.6 531.5 Q1299.4 456.0 1271.7 385.2"/>
+<path d="M1283.7 652.5 Q1345.5 677.8 1394.2 723.6"/>
+<path d="M1283.7 652.5 Q1283.0 721.7 1272.5 790.1"/>
+<path d="M670.9 699.7 Q667.7 788.3 658.9 876.6"/>
+<path d="M670.9 699.7 Q710.4 656.1 761.7 627.5"/>
+<path d="M670.9 699.7 Q658.2 619.4 670.9 539.1"/>
+<path d="M670.9 699.7 Q616.8 695.5 562.9 701.2"/>
+<path d="M543.4 848.6 Q599.8 868.0 658.9 876.6"/>
+<path d="M543.4 848.6 Q560.7 775.9 562.9 701.2"/>
+<path d="M217.1 595.0 Q154.7 552.6 87.6 518.4"/>
+<path d="M217.1 595.0 Q135.9 613.6 55.4 634.6"/>
+<path d="M217.1 595.0 Q224.5 657.1 243.2 716.7"/>
+<path d="M1079.7 97.3 Q1085.8 154.0 1091.3 210.8"/>
+<path d="M1044.1 656.4 Q1042.6 560.6 1051.8 465.3"/>
+<path d="M1426.7 347.7 Q1461.4 216.3 1504.3 87.3"/>
+<path d="M1426.7 347.7 Q1401.4 240.1 1392.6 130.0"/>
+<path d="M1426.7 347.7 Q1495.4 374.3 1552.9 420.5"/>
+<path d="M1426.7 347.7 Q1490.4 322.3 1550.2 288.6"/>
+<path d="M863.8 914.1 Q919.0 886.7 973.9 858.9"/>
+<path d="M1394.2 723.6 Q1339.3 767.8 1272.5 790.1"/>
+<path d="M158.6 244.1 Q104.9 151.3 79.7 47.1"/>
+<path d="M1504.3 87.3 Q1449.7 111.8 1392.6 130.0"/>
+<path d="M1504.3 87.3 Q1539.1 185.2 1550.2 288.6"/>
+<path d="M1392.6 130.0 Q1459.0 221.7 1550.2 288.6"/>
+<path d="M945.2 431.5 Q995.5 457.8 1051.8 465.3"/>
+<path d="M945.2 431.5 Q881.2 355.4 793.0 309.7"/>
+<path d="M1552.9 420.5 Q1547.4 354.6 1550.2 288.6"/>
+<path d="M761.7 627.5 Q720.0 579.5 670.9 539.1"/>
+<path d="M761.7 627.5 Q664.8 671.0 562.9 701.2"/>
+<path d="M1272.5 790.1 Q1318.1 842.3 1375.3 881.7"/>
+<path d="M1272.5 790.1 Q1259.5 862.1 1245.5 933.9"/>
+<path d="M87.6 518.4 Q81.5 579.3 55.4 634.6"/>
+<path d="M1375.3 881.7 Q1307.8 901.3 1245.5 933.9"/>
+<path d="M55.4 634.6 Q37.6 721.6 45.8 810.0"/>
+<path d="M222.3 837.4 Q133.5 827.2 45.8 810.0"/>
+<path d="M222.3 837.4 Q227.3 776.1 243.2 716.7"/>
+<path d="M222.3 837.4 Q150.3 891.7 71.9 936.0"/>
+<path d="M45.8 810.0 Q67.3 871.3 71.9 936.0"/>
+</g>
+<g fill="none" stroke-linecap="round">
+<path d="M963.9 749.2 Q1011.8 709.5 1044.1 656.4" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.91s;animation-delay:-5.13s"/>
+<path d="M963.9 749.2 Q1011.8 709.5 1044.1 656.4" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.91s,2.00s;animation-delay:-5.13s,-0.84s"/>
+<path d="M433.5 177.9 Q484.7 225.2 548.7 253.1" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.05s;animation-delay:-2.08s"/>
+<path d="M433.5 177.9 Q484.7 225.2 548.7 253.1" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.05s,2.00s;animation-delay:-2.08s,-0.72s"/>
+<path d="M433.5 177.9 Q418.3 248.2 397.1 317.0" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.17s;animation-delay:-2.93s"/>
+<path d="M433.5 177.9 Q418.3 248.2 397.1 317.0" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.17s,2.00s;animation-delay:-2.93s,-0.08s"/>
+<path d="M1131.7 835.8 Q1080.1 749.9 1044.1 656.4" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:3.91s;animation-delay:-1.85s"/>
+<path d="M1131.7 835.8 Q1080.1 749.9 1044.1 656.4" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:3.91s,2.00s;animation-delay:-1.85s,-1.74s"/>
+<path d="M1131.7 835.8 Q1053.6 852.6 973.9 858.9" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.95s;animation-delay:-1.41s"/>
+<path d="M1131.7 835.8 Q1053.6 852.6 973.9 858.9" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.95s,2.00s;animation-delay:-1.41s,-1.16s"/>
+<path d="M548.7 253.1 Q473.6 286.7 397.1 317.0" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.81s;animation-delay:-1.58s"/>
+<path d="M548.7 253.1 Q473.6 286.7 397.1 317.0" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.81s,2.00s;animation-delay:-1.58s,-0.05s"/>
+<path d="M548.7 253.1 Q633.7 180.2 687.4 81.9" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.99s;animation-delay:-1.15s"/>
+<path d="M548.7 253.1 Q633.7 180.2 687.4 81.9" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.99s,2.00s;animation-delay:-1.15s,-0.03s"/>
+<path d="M228.9 85.9 Q154.7 64.8 79.7 47.1" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.92s;animation-delay:-2.34s"/>
+<path d="M228.9 85.9 Q154.7 64.8 79.7 47.1" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.92s,2.00s;animation-delay:-2.34s,-0.66s"/>
+<path d="M228.9 85.9 Q324.4 47.8 427.2 47.4" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.38s;animation-delay:-5.15s"/>
+<path d="M228.9 85.9 Q324.4 47.8 427.2 47.4" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.38s,2.00s;animation-delay:-5.15s,-1.89s"/>
+<path d="M954.6 207.1 Q1017.2 152.2 1079.7 97.3" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.41s;animation-delay:-5.50s"/>
+<path d="M954.6 207.1 Q1017.2 152.2 1079.7 97.3" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.41s,2.00s;animation-delay:-5.50s,-1.34s"/>
+<path d="M954.6 207.1 Q1023.0 207.2 1091.3 210.8" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.88s;animation-delay:-1.17s"/>
+<path d="M954.6 207.1 Q1023.0 207.2 1091.3 210.8" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.88s,2.00s;animation-delay:-1.17s,-1.01s"/>
+<path d="M954.6 207.1 Q868.6 250.3 793.0 309.7" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.35s;animation-delay:-0.97s"/>
+<path d="M954.6 207.1 Q868.6 250.3 793.0 309.7" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.35s,2.00s;animation-delay:-0.97s,-1.64s"/>
+<path d="M670.9 233.3 Q686.6 158.4 687.4 81.9" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.38s;animation-delay:-2.12s"/>
+<path d="M670.9 233.3 Q686.6 158.4 687.4 81.9" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.38s,2.00s;animation-delay:-2.12s,-1.61s"/>
+<path d="M1149.9 384.5 Q1210.8 378.7 1271.7 385.2" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:3.81s;animation-delay:-1.29s"/>
+<path d="M1149.9 384.5 Q1210.8 378.7 1271.7 385.2" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:3.81s,2.00s;animation-delay:-1.29s,-1.70s"/>
+<path d="M1149.9 384.5 Q1051.9 426.8 945.2 431.5" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.87s;animation-delay:-6.48s"/>
+<path d="M1149.9 384.5 Q1051.9 426.8 945.2 431.5" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.87s,2.00s;animation-delay:-6.48s,-1.44s"/>
+<path d="M1149.9 384.5 Q1094.0 416.6 1051.8 465.3" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:5.78s;animation-delay:-4.53s"/>
+<path d="M1149.9 384.5 Q1094.0 416.6 1051.8 465.3" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:5.78s,2.00s;animation-delay:-4.53s,-0.27s"/>
+<path d="M1462.0 812.6 Q1420.9 849.9 1375.3 881.7" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.65s;animation-delay:-2.36s"/>
+<path d="M1462.0 812.6 Q1420.9 849.9 1375.3 881.7" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.65s,2.00s;animation-delay:-2.36s,-1.83s"/>
+<path d="M414.8 694.0 Q488.6 703.2 562.9 701.2" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.41s;animation-delay:-5.79s"/>
+<path d="M414.8 694.0 Q488.6 703.2 562.9 701.2" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.41s,2.00s;animation-delay:-5.79s,-1.33s"/>
+<path d="M414.8 694.0 Q329.1 706.4 243.2 716.7" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.75s;animation-delay:-2.65s"/>
+<path d="M414.8 694.0 Q329.1 706.4 243.2 716.7" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.75s,2.00s;animation-delay:-2.65s,-1.00s"/>
+<path d="M1307.6 531.5 Q1299.4 456.0 1271.7 385.2" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:3.79s;animation-delay:-1.20s"/>
+<path d="M1307.6 531.5 Q1299.4 456.0 1271.7 385.2" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:3.79s,2.00s;animation-delay:-1.20s,-0.98s"/>
+<path d="M670.9 699.7 Q667.7 788.3 658.9 876.6" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:3.98s;animation-delay:-0.43s"/>
+<path d="M670.9 699.7 Q667.7 788.3 658.9 876.6" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:3.98s,2.00s;animation-delay:-0.43s,-0.05s"/>
+<path d="M670.9 699.7 Q710.4 656.1 761.7 627.5" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:5.80s;animation-delay:-2.97s"/>
+<path d="M670.9 699.7 Q710.4 656.1 761.7 627.5" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:5.80s,2.00s;animation-delay:-2.97s,-0.57s"/>
+<path d="M217.1 595.0 Q224.5 657.1 243.2 716.7" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.05s;animation-delay:-0.70s"/>
+<path d="M217.1 595.0 Q224.5 657.1 243.2 716.7" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.05s,2.00s;animation-delay:-0.70s,-0.66s"/>
+<path d="M1079.7 97.3 Q1085.8 154.0 1091.3 210.8" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:5.11s;animation-delay:-2.37s"/>
+<path d="M1079.7 97.3 Q1085.8 154.0 1091.3 210.8" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:5.11s,2.00s;animation-delay:-2.37s,-1.13s"/>
+<path d="M1426.7 347.7 Q1461.4 216.3 1504.3 87.3" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.29s;animation-delay:-2.77s"/>
+<path d="M1426.7 347.7 Q1461.4 216.3 1504.3 87.3" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.29s,2.00s;animation-delay:-2.77s,-0.82s"/>
+<path d="M1426.7 347.7 Q1401.4 240.1 1392.6 130.0" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.20s;animation-delay:-2.43s"/>
+<path d="M1426.7 347.7 Q1401.4 240.1 1392.6 130.0" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.20s,2.00s;animation-delay:-2.43s,-0.20s"/>
+<path d="M1426.7 347.7 Q1495.4 374.3 1552.9 420.5" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.28s;animation-delay:-2.49s"/>
+<path d="M1426.7 347.7 Q1495.4 374.3 1552.9 420.5" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.28s,2.00s;animation-delay:-2.49s,-1.32s"/>
+<path d="M863.8 914.1 Q919.0 886.7 973.9 858.9" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.12s;animation-delay:-2.07s"/>
+<path d="M863.8 914.1 Q919.0 886.7 973.9 858.9" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.12s,2.00s;animation-delay:-2.07s,-0.54s"/>
+<path d="M1394.2 723.6 Q1339.3 767.8 1272.5 790.1" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:5.99s;animation-delay:-5.68s"/>
+<path d="M1394.2 723.6 Q1339.3 767.8 1272.5 790.1" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:5.99s,2.00s;animation-delay:-5.68s,-0.60s"/>
+<path d="M1504.3 87.3 Q1449.7 111.8 1392.6 130.0" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:7.22s;animation-delay:-3.92s"/>
+<path d="M1504.3 87.3 Q1449.7 111.8 1392.6 130.0" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:7.22s,2.00s;animation-delay:-3.92s,-0.32s"/>
+<path d="M1504.3 87.3 Q1539.1 185.2 1550.2 288.6" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.53s;animation-delay:-2.33s"/>
+<path d="M1504.3 87.3 Q1539.1 185.2 1550.2 288.6" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.53s,2.00s;animation-delay:-2.33s,-0.46s"/>
+<path d="M761.7 627.5 Q664.8 671.0 562.9 701.2" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.04s;animation-delay:-0.39s"/>
+<path d="M761.7 627.5 Q664.8 671.0 562.9 701.2" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.04s,2.00s;animation-delay:-0.39s,-0.25s"/>
+<path d="M1272.5 790.1 Q1318.1 842.3 1375.3 881.7" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.93s;animation-delay:-1.03s"/>
+<path d="M1272.5 790.1 Q1318.1 842.3 1375.3 881.7" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.93s,2.00s;animation-delay:-1.03s,-0.08s"/>
+<path d="M87.6 518.4 Q81.5 579.3 55.4 634.6" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:3.53s;animation-delay:-2.71s"/>
+<path d="M87.6 518.4 Q81.5 579.3 55.4 634.6" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:3.53s,2.00s;animation-delay:-2.71s,-0.26s"/>
+<path d="M222.3 837.4 Q133.5 827.2 45.8 810.0" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:4.81s;animation-delay:-2.91s"/>
+<path d="M222.3 837.4 Q133.5 827.2 45.8 810.0" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:4.81s,2.00s;animation-delay:-2.91s,-0.95s"/>
+<path d="M222.3 837.4 Q227.3 776.1 243.2 716.7" pathLength="100" class="nbg-signal" stroke="#111111" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.14s;animation-delay:-4.25s"/>
+<path d="M222.3 837.4 Q227.3 776.1 243.2 716.7" pathLength="100" class="nbg-core" stroke="#111111" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.14s,2.00s;animation-delay:-4.25s,-1.62s"/>
+<path d="M222.3 837.4 Q150.3 891.7 71.9 936.0" pathLength="100" class="nbg-signal" stroke="#bc0020" stroke-opacity="0.050" stroke-width="5.0" stroke-dasharray="11 89" style="animation-duration:6.68s;animation-delay:-4.30s"/>
+<path d="M222.3 837.4 Q150.3 891.7 71.9 936.0" pathLength="100" class="nbg-core" stroke="#bc0020" stroke-width="1.5" stroke-dasharray="4 96" style="animation-duration:6.68s,2.00s;animation-delay:-4.30s,-1.49s"/>
+</g>
+<g stroke="none">
+<g class="nbg-fires" style="animation-duration:9.8s;animation-delay:-1.4s">
+<circle cx="963.9" cy="749.2" r="3.5" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="433.5" cy="177.9" r="2.5" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:6.7s;animation-delay:-5.8s">
+<circle cx="1131.7" cy="835.8" r="2.9" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="548.7" cy="253.1" r="2.6" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="228.9" cy="85.9" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="954.6" cy="207.1" r="2.6" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.2s;animation-delay:-0.9s">
+<circle cx="87.1" cy="340.6" r="5.4" fill="#bc0020" fill-opacity="0.088"/>
+<circle cx="87.1" cy="340.6" r="10.4" fill="none" stroke="#bc0020" stroke-opacity="0.053" stroke-width="1"/>
+</g>
+<g class="nbg-fires" style="animation-duration:9.7s;animation-delay:-4.2s">
+<circle cx="397.1" cy="317.0" r="2.4" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="670.9" cy="233.3" r="3.1" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.8s;animation-delay:-5.6s">
+<circle cx="1520.1" cy="612.1" r="2.7" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g>
+<circle cx="1149.9" cy="384.5" r="2.5" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.2s;animation-delay:-7.5s">
+<circle cx="1462.0" cy="812.6" r="3.0" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:7.7s;animation-delay:-3.5s">
+<circle cx="414.8" cy="694.0" r="3.8" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="603.0" cy="386.9" r="6.3" fill="#bc0020" fill-opacity="0.088"/>
+<circle cx="603.0" cy="386.9" r="11.3" fill="none" stroke="#bc0020" stroke-opacity="0.053" stroke-width="1"/>
+</g>
+<g>
+<circle cx="1307.6" cy="531.5" r="2.9" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:5.1s;animation-delay:-5.1s">
+<circle cx="1283.7" cy="652.5" r="2.9" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:9.3s;animation-delay:-9.2s">
+<circle cx="670.9" cy="699.7" r="3.5" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.2s;animation-delay:-1.2s">
+<circle cx="543.4" cy="848.6" r="2.9" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="217.1" cy="595.0" r="2.4" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.9s;animation-delay:-3.8s">
+<circle cx="1079.7" cy="97.3" r="3.1" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:10.7s;animation-delay:-2.2s">
+<circle cx="1044.1" cy="656.4" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.1s;animation-delay:-0.7s">
+<circle cx="1426.7" cy="347.7" r="3.5" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.7s;animation-delay:-2.3s">
+<circle cx="863.8" cy="914.1" r="3.6" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="687.4" cy="81.9" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:6.1s;animation-delay:-3.0s">
+<circle cx="1394.2" cy="723.6" r="7.2" fill="#111111" fill-opacity="0.070"/>
+<circle cx="1394.2" cy="723.6" r="12.2" fill="none" stroke="#111111" stroke-opacity="0.042" stroke-width="1"/>
+</g>
+<g>
+<circle cx="158.6" cy="244.1" r="2.9" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1091.3" cy="210.8" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1504.3" cy="87.3" r="3.0" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1271.7" cy="385.2" r="7.4" fill="#111111" fill-opacity="0.070"/>
+<circle cx="1271.7" cy="385.2" r="12.4" fill="none" stroke="#111111" stroke-opacity="0.042" stroke-width="1"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.2s;animation-delay:-4.6s">
+<circle cx="1392.6" cy="130.0" r="2.6" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="658.9" cy="876.6" r="2.9" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.6s;animation-delay:-7.0s">
+<circle cx="945.2" cy="431.5" r="2.8" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1552.9" cy="420.5" r="3.0" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.9s;animation-delay:-4.0s">
+<circle cx="761.7" cy="627.5" r="2.9" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:6.8s;animation-delay:-6.5s">
+<circle cx="670.9" cy="539.1" r="6.2" fill="#111111" fill-opacity="0.070"/>
+<circle cx="670.9" cy="539.1" r="11.2" fill="none" stroke="#111111" stroke-opacity="0.042" stroke-width="1"/>
+</g>
+<g class="nbg-fires" style="animation-duration:10.4s;animation-delay:-9.3s">
+<circle cx="1051.8" cy="465.3" r="3.0" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="79.7" cy="47.1" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:10.7s;animation-delay:-8.8s">
+<circle cx="562.9" cy="701.2" r="3.0" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1272.5" cy="790.1" r="3.6" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.0s;animation-delay:-6.3s">
+<circle cx="87.6" cy="518.4" r="3.1" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:10.8s;animation-delay:-3.2s">
+<circle cx="250.8" cy="400.9" r="5.4" fill="#111111" fill-opacity="0.070"/>
+<circle cx="250.8" cy="400.9" r="10.4" fill="none" stroke="#111111" stroke-opacity="0.042" stroke-width="1"/>
+</g>
+<g class="nbg-fires" style="animation-duration:6.2s;animation-delay:-5.4s">
+<circle cx="973.9" cy="858.9" r="3.4" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g>
+<circle cx="1375.3" cy="881.7" r="3.4" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:8.4s;animation-delay:-3.6s">
+<circle cx="55.4" cy="634.6" r="2.8" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:7.6s;animation-delay:-6.7s">
+<circle cx="222.3" cy="837.4" r="3.6" fill="#bc0020" fill-opacity="0.088"/>
+</g>
+<g class="nbg-fires" style="animation-duration:10.1s;animation-delay:-1.3s">
+<circle cx="45.8" cy="810.0" r="3.1" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g class="nbg-fires" style="animation-duration:6.0s;animation-delay:-5.0s">
+<circle cx="1550.2" cy="288.6" r="2.9" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="243.2" cy="716.7" r="5.7" fill="#111111" fill-opacity="0.070"/>
+<circle cx="243.2" cy="716.7" r="10.7" fill="none" stroke="#111111" stroke-opacity="0.042" stroke-width="1"/>
+</g>
+<g>
+<circle cx="793.0" cy="309.7" r="3.7" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="1245.5" cy="933.9" r="3.8" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="71.9" cy="936.0" r="3.1" fill="#111111" fill-opacity="0.070"/>
+</g>
+<g>
+<circle cx="427.2" cy="47.4" r="3.0" fill="#111111" fill-opacity="0.070"/>
+</g>
+</g></g></svg>

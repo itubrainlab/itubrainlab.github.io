@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ITU brAIn lab</title>
+<meta name="description" content="The ITU brAIn lab — research and education at the crossroad between machine learning, psychophysiology, neuroscience and cognition.">
+<link rel="icon" href="assets/img/mark.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Decorative synapse texture; app.js injects assets/img/neural-bg.svg here. -->
+<div class="neural-bg" aria-hidden="true"></div>
+
+<header class="site-header">
+  <nav class="main-nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#/about" aria-label="ITU brAIn lab — home">
+        <img src="assets/img/logo.png" width="386" height="100" alt="ITU brAIn lab">
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"></span> Menu
+      </button>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#/about">About the lab</a></li>
+        <li><a href="#/thesis">Thesis Project Ideas</a></li>
+        <li><a href="#/publications">Publications</a></li>
+        <li><a href="#/datasets">Datasets</a></li>
+        <li><a href="#/news">News</a></li>
+        <li><a href="#/contacts">Contacts</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div class="container page-wrapper">
+  <main id="main" class="site-main">
+    <article class="entry">
+      <h1 class="entry-title" id="page-title"></h1>
+      <div class="entry-content" id="page-content">
+        <p class="loading">Loading&#8230;</p>
+      </div>
+    </article>
+  </main>
+
+  <aside class="sidebar" id="sidebar" hidden>
+    <section class="widget">
+      <h2 class="widget-title">News</h2>
+      <ul class="news-list" id="news-list"></ul>
+    </section>
+  </aside>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">
+      <img src="assets/img/mark.png" width="40" height="40" alt="">
+      <span>ITU brAIn lab &mdash; IT University of Copenhagen</span>
+    </p>
+    <ul class="footer-links">
+      <li><a href="https://pure.itu.dk/en/organisations/brain-lab/" rel="noopener">brAIn lab @ ITU</a></li>
+      <li><a href="https://digitalplay.itu.dk/" rel="noopener">Center for Digital Play</a></li>
+      <li><a href="https://pure.itu.dk/en/organisations/brain-lab/publications/?format=rss" rel="noopener">Publications RSS</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="assets/js/marked.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

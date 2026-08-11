@@ -1,0 +1,385 @@
+/* ITU brAIn lab — palette lifted from brainlab.itu.dk (red #bc0020 on black) */
+
+:root {
+  --red: #bc0020;
+  --red-dark: #8e0018;
+  --red-light: #e11b3c;
+  --black: #111111;
+  --ink: #1a1a1a;
+  --body: #333333;
+  --muted: #6b6b6b;
+  --rule: #e3e3e3;
+  --bg: #ffffff;
+  --bg-soft: #f6f6f6;
+  --container: 1100px;
+  --nav-h: 76px;
+
+  /* Cards float over the neural texture, so they are translucent rather than
+     solid white. The blur keeps body copy legible over the moving discharges. */
+  --card: rgba(255, 255, 255, 0.82);
+  --card-soft: rgba(246, 246, 246, 0.82);
+  --card-radius: 16px;
+  --card-shadow: 0 1px 2px rgba(17, 17, 17, .05), 0 10px 30px rgba(17, 17, 17, .06);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--body);
+  font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+  background-color: var(--bg);
+}
+
+/* Faint synapse/neural-network texture, injected as inline SVG by app.js.
+   It has to be in the DOM rather than a background-image: browsers freeze CSS
+   animations inside an SVG that is used as a background. Fixed to the viewport
+   so it stays put while the page scrolls, and never tiles. */
+.neural-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.neural-bg svg {
+  display: block;
+  width: 100%;
+  height: 100%;   /* the SVG's preserveAspectRatio="slice" gives cover behaviour */
+}
+
+/* Content sits above the texture. */
+.site-header, .page-wrapper, .site-footer { position: relative; z-index: 1; }
+
+/* The texture is purely decorative — no need to spend ink on it. */
+@media print {
+  .neural-bg { display: none; }
+}
+
+.page-wrapper { flex: 1 0 auto; }
+.site-footer { flex-shrink: 0; }
+
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+a { color: var(--red); text-decoration: none; }
+a:hover { color: var(--red-dark); text-decoration: underline; }
+
+img { max-width: 100%; height: auto; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--red); color: #fff; padding: 10px 18px;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- Header / navigation ---------- */
+
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--black);
+  border-bottom: 3px solid var(--red);
+}
+
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; min-height: var(--nav-h);
+}
+
+.logo { display: flex; align-items: center; flex: 0 0 auto; }
+.logo img { height: 48px; width: auto; display: block; }
+
+.nav-menu {
+  display: flex; align-items: center; gap: 4px;
+  list-style: none; margin: 0; padding: 0; flex-wrap: wrap;
+}
+
+.nav-menu a {
+  display: block; padding: 10px 14px;
+  color: #f2f2f2; font-size: 15px; font-weight: 500;
+  border-radius: 3px; transition: background .15s, color .15s;
+}
+.nav-menu a:hover { background: var(--red); color: #fff; text-decoration: none; }
+.nav-menu a.active { background: var(--red); color: #fff; }
+.nav-menu .ext { font-size: 11px; opacity: .75; }
+
+.nav-toggle {
+  display: none; align-items: center; gap: 10px;
+  background: none; border: 1px solid #444; border-radius: 3px;
+  color: #f2f2f2; font: inherit; font-size: 15px;
+  padding: 9px 14px; cursor: pointer;
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block; width: 18px; height: 2px; background: currentColor; content: "";
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before { position: absolute; top: -6px; }
+.nav-toggle-bars::after  { position: absolute; top: 6px; }
+
+/* ---------- Layout ---------- */
+
+.page-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  align-items: start;
+  padding-top: 40px;
+  padding-bottom: 64px;
+}
+.page-wrapper.no-sidebar { grid-template-columns: minmax(0, 1fr); }
+
+.site-main { min-width: 0; }
+
+.entry {
+  background: var(--card);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 40px 44px 44px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.entry-title {
+  margin: 0 0 8px;
+  font-size: 2.25rem; line-height: 1.2; font-weight: 700;
+  color: var(--black); letter-spacing: -.02em;
+}
+.entry-title::after {
+  content: ""; display: block; width: 64px; height: 4px;
+  background: var(--red); margin-top: 16px;
+}
+.entry-content { margin-top: 28px; }
+
+/* ---------- Content typography ---------- */
+
+.entry-content h2 {
+  margin: 44px 0 14px; font-size: 1.5rem; line-height: 1.3;
+  color: var(--black); font-weight: 700;
+}
+.entry-content h3 {
+  margin: 34px 0 10px; font-size: 1.15rem; line-height: 1.35;
+  color: var(--black); font-weight: 700;
+}
+.entry-content h4 { margin: 26px 0 8px; font-size: 1rem; color: var(--ink); }
+.entry-content p { margin: 0 0 18px; }
+.entry-content strong { color: var(--ink); font-weight: 600; }
+.entry-content ul, .entry-content ol { margin: 0 0 20px; padding-left: 22px; }
+.entry-content li { margin-bottom: 12px; }
+.entry-content li > strong:first-child { color: var(--black); }
+
+.entry-content blockquote {
+  margin: 24px 0; padding: 4px 0 4px 20px;
+  border-left: 4px solid var(--red); color: var(--muted); font-style: italic;
+}
+
+.entry-content hr { border: 0; border-top: 1px solid var(--rule); margin: 40px 0; }
+
+.entry-content img { border-radius: 4px; display: block; }
+
+/* Video embeds: a link alone on its own line becomes a player (see
+   embedVideos() in app.js). Sized by aspect ratio so it stays responsive. */
+.video-embed {
+  position: relative;
+  margin: 28px 0;
+  aspect-ratio: 16 / 9;
+  max-width: 760px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--card-shadow);
+}
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.entry-content figure { margin: 28px 0; }
+.entry-content figcaption { font-size: .875rem; color: var(--muted); margin-top: 8px; }
+
+.entry-content table { width: 100%; border-collapse: collapse; margin: 0 0 24px; }
+.entry-content th, .entry-content td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+.entry-content th { background: var(--bg-soft); color: var(--black); }
+
+.entry-content code {
+  background: var(--bg-soft); padding: 2px 6px; border-radius: 3px;
+  font-size: .9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Lead paragraph — first paragraph of a page */
+.entry-content > p:first-child { font-size: 1.0625rem; color: var(--ink); }
+
+/* ---------- Pure-fed record lists (publications / datasets / people) ---------- */
+
+.record-list { margin: 24px 0 40px; }
+
+/* People carry a portrait. The generated Markdown is a flat run of elements
+   (image, name, email, affiliations) with no per-person wrapper, so the avatar
+   column is built by reserving space rather than by floating: a float only
+   shifts the line boxes next to it, which lets a long affiliation wrap back
+   underneath the avatar and breaks the text column. Here every text element
+   gets the same left padding, so the column is straight at any width. */
+.record-list:has(p > img) { --avatar: 76px; --avatar-gap: 18px; }
+
+.record-list:has(p > img) > h3,
+.record-list:has(p > img) > p {
+  padding-left: calc(var(--avatar) + var(--avatar-gap));
+}
+.record-list:has(p > img) > h2 { padding-left: 0; }
+
+/* The image's paragraph is just an anchor: it reserves the avatar's height so
+   short entries cannot overlap the next one, and the name is pulled back up
+   into that reserved space. */
+.record-list:has(p > img) > p:has(> img) {
+  position: relative;
+  min-height: var(--avatar);
+  padding-left: 0;
+  margin: 30px 0 0;
+}
+.record-list:has(p > img) > p:has(> img) + h3 {
+  margin-top: calc(-1 * var(--avatar));
+}
+.record-list p > img {
+  position: absolute;
+  top: 0; left: 0;
+  width: var(--avatar); height: var(--avatar);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-soft);
+  margin: 0;
+}
+
+.record-list h2 {
+  clear: both;
+  margin: 40px 0 4px; padding-bottom: 8px;
+  font-size: 1.05rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--red); border-bottom: 2px solid var(--rule);
+}
+.record-list h2:first-child { margin-top: 0; }
+
+.record-list h3 {
+  margin: 26px 0 6px; font-size: 1.0625rem; line-height: 1.4; font-weight: 600;
+}
+.record-list h3 a { color: var(--black); }
+.record-list h3 a:hover { color: var(--red); }
+
+.record-list p { margin: 0 0 6px; font-size: .9375rem; color: var(--muted); }
+.record-list p em { color: var(--muted); font-style: normal; font-size: .8125rem;
+  text-transform: uppercase; letter-spacing: .04em; }
+
+/* ---------- Sidebar ---------- */
+
+.sidebar { position: sticky; top: calc(var(--nav-h) + 24px); }
+
+.widget {
+  /* The red accent is a background bar rather than a border-top: a 4px border
+     follows the rounded corners and leaves little red hooks at each end. */
+  background:
+    linear-gradient(var(--red), var(--red)) no-repeat top / 100% 4px,
+    var(--card-soft);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 26px 24px 8px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.widget-title {
+  margin: 0 0 16px; font-size: 1rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--black);
+}
+
+.news-list { list-style: none; margin: 0; padding: 0; }
+.news-list li { padding: 0 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--rule); }
+.news-list li:last-child { border-bottom: 0; }
+.news-list .news-title { display: block; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.news-list .news-title:hover { color: var(--red); text-decoration: none; }
+.news-list .news-date { display: block; font-size: .8125rem; color: var(--muted); margin-top: 4px; }
+
+/* ---------- News page ---------- */
+
+/* Each entry is an h2 followed by its date and body, with no per-entry wrapper,
+   so the divider hangs off the heading. */
+[data-page="news"] h2 {
+  margin-top: 40px;
+  padding-top: 36px;
+  border-top: 1px solid var(--rule);
+}
+
+/* The date line, e.g. *April 10, 2025* */
+[data-page="news"] h2 + p {
+  margin-top: -2px;
+  margin-bottom: 14px;
+}
+[data-page="news"] h2 + p em {
+  font-style: normal;
+  font-size: .8125rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--black); color: #b9b9b9;
+  border-top: 3px solid var(--red);
+  padding: 32px 0;
+  font-size: .9375rem;
+}
+.footer-inner { display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; }
+.footer-brand { display: flex; align-items: center; gap: 12px; margin: 0; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; }
+.footer-links a { color: #e6e6e6; }
+.footer-links a:hover { color: var(--red-light); }
+
+/* ---------- States ---------- */
+
+.loading, .error { color: var(--muted); }
+.error { border-left: 4px solid var(--red); padding-left: 16px; }
+.error code { display: inline-block; margin-top: 4px; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .page-wrapper { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .sidebar { position: static; }
+}
+
+@media (max-width: 940px) {
+  .nav-inner { flex-wrap: wrap; min-height: 64px; padding-top: 10px; padding-bottom: 10px; }
+  .nav-toggle { display: inline-flex; }
+  .nav-menu {
+    display: none; flex-basis: 100%; flex-direction: column;
+    align-items: stretch; gap: 0; padding-bottom: 8px;
+  }
+  .nav-menu.open { display: flex; }
+  .nav-menu li { border-top: 1px solid #2b2b2b; }
+  .nav-menu a { padding: 13px 4px; border-radius: 0; }
+  .entry-title { font-size: 1.75rem; }
+  .logo img { height: 40px; }
+  /* the card should not squeeze the text column on a phone */
+  .entry { padding: 26px 20px 30px; border-radius: 12px; }
+  /* side padding only — the shorthand would wipe .page-wrapper's top/bottom */
+  .container { padding-left: 14px; padding-right: 14px; }
+}
+
+@media print {
+  .site-header, .sidebar, .site-footer, .skip-link { display: none; }
+  .page-wrapper { display: block; }
+  .entry {
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+  }
+}
