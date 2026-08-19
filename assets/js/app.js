@@ -7,8 +7,8 @@
   var ROUTES = {
     about:        { file: 'content/about.md',        title: 'About the lab' },
     thesis:       { file: 'content/thesis.md',       title: 'Thesis Project Ideas' },
-    contacts:     { file: 'content/contacts.md',     title: 'Contacts' },
     publications: { file: 'content/publications.md', title: 'Publications' },
+    people:       { file: 'content/people.md',       title: 'People' },
     datasets:     { file: 'content/datasets.md',     title: 'Datasets' },
     news:         { file: 'content/news.md',         title: 'News' }
   };

@@ -1,5 +1,5 @@
 ---
-title: Contacts
+title: People
 sidebar: none
 ---
 
