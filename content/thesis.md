@@ -7,9 +7,27 @@ Most of the projects in the brAIn lab fall into three (non-exclusive) categories
 You might, for example, study a specific **computer game** using our lab equipment, or develop some **novel machine-learning** model to be able to tackle some specific brain mechanisms and signals.  
 If you are interested in **software development,** the lab is also developing a framework for multi-modal data collection, storage and analysis.
 
-The remainder of this page contains a few ideas for potential Master’s and Bachelor’s theses in the lab. We try our best to keep this page updated; however, there might be some outdated projects on this page and some new ideas not present here. If you are interested in these topics, please do not hesitate to contact us. You can find our email on the [contacts](#/contacts) page.
+The remainder of this page contains a few ideas for potential Master’s and Bachelor’s theses in the lab. If you are interested in these topics, please do not hesitate to contact us. You can find our email on the [Paople](#/people) page.
 
-## Investigate the application of deep learning to encode psychophysiological signals (e.g. EEG, Gaze, Blood Pulse) and model human brain behaviour.
+## Cognition and Deep Learning
+
+- **Explainable reppresentation learning of the brain activity**: use deep learning and explainable AI methods to investigate brain activity and identify emerging complex patterns.
+- **EEG disentanglement**: learn disentangled representations that separate subject-specific, task-specific and noise components of the EEG signal.
+- **Privacy and synthesis of biometric data**: study re-identification risks in brain and body signals and explore anonymisation and privacy-preserving learning techniques.
+- **EEG foundation models**: investigate large-scale self-supervised pre-training on EEG corpora and transfer across datasets, subjects and tasks.
+
+## Human-AI Interaction
+
+- **Small Language Models for real-time interactive agents**: work with small scale specialised language models to create smart agents in video games.
+- **Programming with AI**: investigate the cognitive impact of agentic programming, prompt egineering and other AI innovations in software development.
+- **Recoving from AI disasters**: what happens when the AI fails and we need to take over? explore how estreme automation affects human skills and how to design AI based systems that support a healty and safe human-AI interaction.
+
+## Affective Computing and BCI
+
+- **BCI**: explore and experiment with passive and active brain computer interfaces for natural interaction.
+- **User and Player Modelling**: develop models to analyse and predic the user experience of players during their interaction in video games.
+
+<!-- ## Investigate the application of deep learning to encode psychophysiological signals (e.g. EEG, Gaze, Blood Pulse) and model human brain behaviour.
 
 - **Stable spatial representation inference in EEG signal**  
   Using neural networks, we can potentially infer the latent structure of the signal, allowing us to use the trained model to understand details about the human brain. Turning this into a reliable method of analysing EEG signals would be a huge development in the field! Several problems remain, though; to begin with, the learned representation is unstable over different model initialisations, which is critical to make the method reliable. We must develop ways to converge the model on the stable representation given the same dataset.
@@ -70,4 +88,4 @@ The uncanny valley (UV) is a negative emotional reaction to artificial character
 - *Judging quality with SLMs: How good can we get?*  
   A common procedure for benchmarking language model outputs is called LLM-as-a-judge. Small language models (SLMs), say around 1 billion parameters, can be a promising technology for some offline use cases, such as dynamic game content generation, because they can run locally on user devices. In such a case, it is necessary to avoid exposing the user to bad outputs; LLMs cannot be used for judging in this case. Is it possible, for a specific use case, to train an SLM that can reliably identify the bad generations?
 - *Design your own SLM-based game!*  
-  As a means to create new video game experiences, there has been a lot of interest in “open” or “dynamic” gameplay experiences. “No Man’s Sky” is both an excellent example of the type of interest a game with such an emphasis can generate among gamers, but also of how difficult it is to achieve. Recent advances in large language models suggest an avenue to achieve this, but leveraging these has many issues, among others, of needing to be online. By breaking down tasks into smaller components, small language models become a viable alternative. Can you come up with a game loop which features dynamic content creation that is well enough scoped for a small language model to handle it? How would you measure it?
+  As a means to create new video game experiences, there has been a lot of interest in “open” or “dynamic” gameplay experiences. “No Man’s Sky” is both an excellent example of the type of interest a game with such an emphasis can generate among gamers, but also of how difficult it is to achieve. Recent advances in large language models suggest an avenue to achieve this, but leveraging these has many issues, among others, of needing to be online. By breaking down tasks into smaller components, small language models become a viable alternative. Can you come up with a game loop which features dynamic content creation that is well enough scoped for a small language model to handle it? How would you measure it? -->
