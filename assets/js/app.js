@@ -5,7 +5,7 @@
   'use strict';
 
   var ROUTES = {
-    about:        { file: 'content/about.md',        title: 'About the lab' },
+    about:        { file: 'content/about.md',        title: 'About Us' },
     thesis:       { file: 'content/thesis.md',       title: 'Thesis Project Ideas' },
     publications: { file: 'content/publications.md', title: 'Publications' },
     people:       { file: 'content/people.md',       title: 'People' },
@@ -15,6 +15,9 @@
 
   var DEFAULT_ROUTE = 'about';
   var NEWS_FILE = 'content/news.md';
+  /* Entries written by hand carry no author, so they fall back to the lab's own
+     mark rather than leaving a hole in the column of avatars. */
+  var NEWS_FALLBACK_AVATAR = 'assets/img/mark.png';
   var BACKGROUND_FILE = 'assets/img/neural-bg.svg';
   var SIDEBAR_NEWS_COUNT = 5;
 
@@ -88,7 +91,12 @@
     });
   }
 
-  /* Split a news Markdown file into entries on `## ` headings. */
+  /* Split a news Markdown file into entries on `## ` headings.
+
+     The author's picture is the image sitting on the line directly above the
+     credit line — the shape update.py writes, and the same one the stylesheet
+     keys off. A photo attached to the entry is followed by a blank line or by
+     another photo, so it cannot be mistaken for the avatar. */
   function parseNews(text) {
     var body = parseFrontMatter(text).body;
     var entries = [];
@@ -101,23 +109,48 @@
       var next = matches[i + 1];
       var chunk = body.slice(cur.end, next ? next.start : body.length);
       var dateMatch = /^\s*\*([^*]+)\*\s*$/m.exec(chunk);
+      var avatarMatch = /^!\[[^\]]*\]\(([^)\s]+)\)[ \t]*\n[ \t]*\*/m.exec(chunk);
       entries.push({
         title: cur.title,
         slug: slugify(cur.title),
-        date: dateMatch ? dateMatch[1].trim() : ''
+        date: dateMatch ? dateMatch[1].trim() : '',
+        avatar: avatarMatch ? avatarMatch[1] : NEWS_FALLBACK_AVATAR
       });
     });
     return entries;
   }
 
-  function renderNewsSidebar() {
+  /* The news page pulls its most recent entries in from a generated file, so
+     the sidebar has to follow the include directives before it can list them. */
+  function newsBody() {
+    var INCLUDE = /\{\{\s*include:\s*([^}|]+?)\s*(?:\|\s*[^}]*?)?\}\}/g;
     return fetchText(NEWS_FILE).then(function (text) {
+      var body = parseFrontMatter(text).body;
+      var jobs = [];
+      body.replace(INCLUDE, function (_, path) {
+        jobs.push(fetchText(path)
+          .then(function (t) { return parseFrontMatter(t).body; })
+          .catch(function () { return ''; }));
+        return '';
+      });
+      return Promise.all(jobs).then(function (parts) {
+        var i = 0;
+        return body.replace(INCLUDE, function () { return parts[i++]; });
+      });
+    });
+  }
+
+  function renderNewsSidebar() {
+    return newsBody().then(function (text) {
       var entries = parseNews(text).slice(0, SIDEBAR_NEWS_COUNT);
       els.news.innerHTML = entries.map(function (e) {
-        return '<li><a class="news-title" href="#/news?e=' + encodeURIComponent(e.slug) + '">' +
-               escapeHtml(e.title) + '</a>' +
+        return '<li><a class="news-item" href="#/news?e=' + encodeURIComponent(e.slug) + '">' +
+               '<img class="news-avatar" src="' + escapeHtml(e.avatar) + '" alt="" ' +
+               'width="32" height="32" loading="lazy" decoding="async">' +
+               '<span class="news-body">' +
+               '<span class="news-title">' + escapeHtml(e.title) + '</span>' +
                (e.date ? '<span class="news-date">' + escapeHtml(e.date) + '</span>' : '') +
-               '</li>';
+               '</span></a></li>';
       }).join('');
     }).catch(function () {
       els.news.innerHTML = '<li class="error">News could not be loaded.</li>';
@@ -298,11 +331,20 @@
   /* ---------- lightbox ---------- */
 
   /* Content photos open full size. Portraits in the people list are excluded:
-     they are only 320px to begin with, so blowing them up gains nothing. */
+     they are only 320px to begin with, so blowing them up gains nothing. The
+     same goes for the author's picture on a news byline, which the generated
+     Markdown puts directly above the credit line — so it is the one image with
+     text, rather than another image, as its next sibling. */
   function isZoomable(img) {
     return img.tagName === 'IMG' &&
            els.content.contains(img) &&
-           !img.closest('.record-list');
+           !img.closest('.record-list') &&
+           !isBylineAvatar(img);
+  }
+
+  function isBylineAvatar(img) {
+    var next = img.nextElementSibling;
+    return !!next && (next.tagName === 'EM' || next.tagName === 'STRONG');
   }
 
   /* Images in the same paragraph form a gallery you can page through; a lone

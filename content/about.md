@@ -1,5 +1,5 @@
 ---
-title: About the lab
+title: About Us
 sidebar: news
 ---
 

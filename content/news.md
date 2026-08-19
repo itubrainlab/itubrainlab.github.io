@@ -3,6 +3,8 @@ title: News
 sidebar: none
 ---
 
+{{include: content/data/news.md | news-feed}}
+
 ## brAIn lab at CHI ’25
 
 *April 10, 2025*

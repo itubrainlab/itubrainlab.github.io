@@ -32,18 +32,21 @@ assets/img/                logo, favicon mark, team photo
 assets/img/neural-bg.svg   faint synapse texture behind the page
 assets/img/people/         GENERATED — portraits and initials monograms
 content/
-  about.md                 "About the lab"        (#/about)
+  about.md                 "About Us"             (#/about)
   thesis.md                "Thesis Project Ideas" (#/thesis)
-  contacts.md              "Contacts"             (#/contacts)
+  people.md                "People"               (#/people)
   publications.md          "Publications"         (#/publications)
   datasets.md              "Datasets"             (#/datasets)
   news.md                  "News"                 (#/news)
   media/                   images used by the pages above
+  media/news/              GENERATED — photos pulled from LinkedIn posts
+  media/news/authors/      GENERATED — author pictures for the news bylines
   data/                    GENERATED — do not edit by hand
     publications.md
     datasets.md
     people.md
-scripts/update.py          refreshes content/data/ from ITU Pure
+    news.md
+scripts/update.py          refreshes content/data/ from ITU Pure and LinkedIn
 scripts/make_background.py regenerates the neural background SVG
 ```
 
@@ -130,7 +133,7 @@ small front-matter block:
 
 ```markdown
 ---
-title: About the lab
+title: About Us
 sidebar: news
 ---
 ```
@@ -211,42 +214,113 @@ press play. Players are 16:9 and capped at 760px wide.
 1. Create `content/yourpage.md` with front matter.
 2. Add a line to `ROUTES` in `assets/js/app.js`.
 3. Add a `<li><a href="#/yourpage">…</a></li>` to the nav in `index.html`.
-   The desktop nav needs about 911px for its six items and switches to the
+   The desktop nav needs about 887px for its six items and switches to the
    mobile menu at 940px, so there is little room for another one before that
    breakpoint needs raising.
 
 ### Adding news
 
-Append a `## Title` section to `content/news.md`, with the date on the next
-line as `*April 10, 2025*`. The sidebar widget picks up the five most recent
-entries automatically and links to them.
+Recent news comes from LinkedIn — see *News from LinkedIn* below — and
+`content/news.md` includes it above the older entries kept by hand. To add an
+entry by hand, append a `## Title` section to `content/news.md` with the date
+on the next line as `*April 10, 2025*`. The sidebar widget picks up the five
+most recent entries from the page, generated ones included, and links to them.
 
-## Updating publications, datasets and contacts
+Each row in that widget shows the author's picture next to the title, taken
+from the entry's byline. A hand-written entry has no byline, so it falls back to
+the lab's own mark (`assets/img/mark.png`) rather than leaving a hole in the
+column — the same reasoning as the monograms on the people page.
+
+## Updating publications, datasets, people and news
 
 ```bash
 python3 scripts/update.py
 ```
 
 Standard library only — no `pip install`. It reads three RSS feeds from ITU's
-Pure portal and rewrites the three files in `content/data/`:
+Pure portal plus the lab's LinkedIn page, and rewrites the four files in
+`content/data/`:
 
 | File | Source |
 |---|---|
 | `content/data/publications.md` | `pure.itu.dk/en/organisations/brain-lab/publications/?format=rss` |
 | `content/data/datasets.md` | `pure.itu.dk/en/organisations/brain-lab/datasets/?format=rss` |
 | `content/data/people.md` | `pure.itu.dk/en/organisations/brain-lab/persons/?format=rss` |
+| `content/data/news.md` | `linkedin.com/company/itu-brain-lab` |
 
 Options:
 
 ```bash
 python3 scripts/update.py --dry-run          # show what would change
-python3 scripts/update.py publications       # one feed only
+python3 scripts/update.py publications       # one source only
 python3 scripts/update.py --lang da          # Danish Pure portal instead of English
-python3 scripts/update.py --no-photos        # skip fetching portraits
+python3 scripts/update.py --no-photos        # skip fetching portraits and post photos
+python3 scripts/update.py --linkedin-url URL # read the news from another company page
 ```
 
 Publications are grouped by year. Email addresses on the people list come out
 of Pure's base64 obfuscation and are written as ordinary `mailto:` links.
+
+## News from LinkedIn
+
+LinkedIn publishes no feed for a company page, so `update.py` reads the page
+itself. Logged-out visitors are shown the five most recent updates, and those
+five are what ends up in `content/data/news.md` — running the script more often
+does not reach further back, so anything older is worth copying into the
+hand-written part of `content/news.md` before it falls off.
+
+A post has no title, so the heading is made from its opening line (truncated at
+88 characters). Where the line becomes the heading whole, it is dropped from the
+body rather than printed twice. The date is not the "2mo" the page displays: a
+LinkedIn activity id carries its creation time in its top 41 bits, which is
+recovered and formatted as a real date.
+
+### Reposts
+
+The lab's page is mostly reposts, and LinkedIn has two kinds that need opposite
+treatment:
+
+- A **pure repost** — "ITU brAIn lab reposted this", nothing added — is rendered
+  by LinkedIn as the original post itself: the byline is the original author and
+  the body is their words. The script keeps that original as the news entry, and
+  credits, dates and links it via `data-featured-activity-urn`, so the entry
+  points at the post being repeated rather than at the lab's empty repost of it.
+- A **repost with commentary** keeps the lab's own words at the top; the post it
+  quotes is nested in an inner `<article>` and is carried through underneath as
+  a blockquote with its own byline.
+
+Links are unwrapped on the way out: `/redir/redirect` hops and `lnkd.in`
+shortlinks are resolved to the page they point at, LinkedIn's `trk=` tracking
+parameter is dropped, and hashtags and mentions that only lead to a sign-up wall
+keep their text and lose their link. Photos attached to a post are downloaded to
+`content/media/news/`, named after the activity id, for the same reason as the
+portraits below — no hotlinking a host we do not own.
+
+### Author pictures
+
+Each entry closes with the author's picture next to *Posted by …*, and a quoted
+repost carries the picture of whoever wrote the post being quoted. Those are
+downloaded to `content/media/news/authors/` and named after the author rather
+than the post — `burelli.jpg`, `itu-brain-lab.jpg` — so the several entries that
+share an author share one file. A person's photo arrives at 400px and an
+organisation's logo at 100px; both are rendered at 34px and masked to a circle.
+
+An author with no picture on LinkedIn, or whose picture will not download, gets
+the same initials monogram the people page uses, so no byline is left with a
+gap. `--no-photos` gives every author a monogram; `--dry-run` writes no image
+files at all.
+
+The generated Markdown puts the picture on the line directly above the credit,
+inside the same paragraph. That is deliberate: it makes the byline avatar the
+one image with *text* rather than another image as its next sibling, which is
+how `style.css` finds it to make it round, how `app.js` knows to leave it out of
+the lightbox, and how `parseNews()` picks it up for the sidebar widget. Move it
+and all three stop matching.
+
+The parsing leans on LinkedIn's `data-test-id` attributes, which LinkedIn
+changes without notice. If a run reports no updates found, or entries come out
+empty, that markup has moved: start at `split_updates()` and `card_body()` in
+`scripts/update.py`.
 
 ### Portraits
 

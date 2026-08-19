@@ -391,8 +391,25 @@ img { max-width: 100%; height: auto; }
 .news-list { list-style: none; margin: 0; padding: 0; }
 .news-list li { padding: 0 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--rule); }
 .news-list li:last-child { border-bottom: 0; }
+
+/* The whole row is the link, so the author's picture is part of the target
+   rather than a dead spot beside it. */
+.news-item { display: flex; align-items: flex-start; gap: 10px; }
+.news-item:hover { text-decoration: none; }
+.news-avatar {
+  flex: none;
+  width: 32px; height: 32px;
+  margin-top: 1px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-soft);
+  /* An outset ring rather than a border: several organisation logos are a pale
+     mark on a near-white square and would otherwise dissolve into the widget. */
+  box-shadow: 0 0 0 1px var(--rule);
+}
+.news-body { min-width: 0; }
 .news-list .news-title { display: block; font-weight: 600; color: var(--ink); line-height: 1.4; }
-.news-list .news-title:hover { color: var(--red); text-decoration: none; }
+.news-item:hover .news-title { color: var(--red); }
 .news-list .news-date { display: block; font-size: .8125rem; color: var(--muted); margin-top: 4px; }
 
 /* ---------- News page ---------- */
@@ -417,6 +434,32 @@ img { max-width: 100%; height: auto; }
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* The credit line closing a LinkedIn entry: the author's picture followed by
+   "Posted by ... · view on LinkedIn", or, inside a quoted repost, by the name
+   of whoever wrote the post being quoted. Both are the one paragraph whose
+   image is immediately followed by text, which is what tells them apart from
+   a photo attached to the post -- app.js keeps those two apart the same way. */
+[data-page="news"] p:has(> img + em),
+[data-page="news"] blockquote p:has(> img + strong) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+[data-page="news"] p:has(> img + em) > img,
+[data-page="news"] blockquote p:has(> img + strong) > img {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-soft);
+  box-shadow: 0 0 0 1px var(--rule);
+  cursor: default;
+}
+[data-page="news"] blockquote p:has(> img + strong) { margin-top: 0; }
 
 /* ---------- Footer ---------- */
 
