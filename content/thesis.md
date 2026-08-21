@@ -25,7 +25,10 @@ The remainder of this page contains a few ideas for potential Master’s and Bac
 ## Affective Computing and BCI
 
 - **BCI**: explore and experiment with passive and active brain computer interfaces for natural interaction.
-- **User and Player Modelling**: develop models to analyse and predic the user experience of players during their interaction in video games.
+- **User and Player Modelling**: develop models to analyse and predict the user experience of players during their interaction in video games.
+- **Computational modelling of individual affect and personality**: investigate the lab's affective datasets (e.g. AFFEC) to study individual patterns of affect.
+- **Multi-user affective modelling and group dynamics**: develop model to analyse and predict group conversation behaviours.
+- **Multimodal sensor synchronisation and fusion**: create and test algorithms to synchronise, dynamically select and fuse input from multiple cameras and biological sensors.
 
 <!-- ## Investigate the application of deep learning to encode psychophysiological signals (e.g. EEG, Gaze, Blood Pulse) and model human brain behaviour.
 
