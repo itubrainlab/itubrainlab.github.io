@@ -1,7 +1,7 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://pure.itu.dk/en/organisations/brain-lab/publications/?format=rss
-     Written by scripts/update.py on 2026-08-19 12:24 UTC
-     21 publications -->
+     Written by scripts/update.py on 2026-08-24 08:52 UTC
+     22 publications -->
 
 ## 2026
 
@@ -22,6 +22,12 @@ Dixen, L., 2026, IT-Universitetet. 333 p.
 Seikavandi, M. J., Fimland, J., Batista Narcizo, F., Barrett, M. J., Vucurevich, T., Bünsow Boldt, J., Burke Dittberner, A. & Burelli, P., 2026, BMVC 2025 MPI Workshop. British Machine Vision Association
 
 *Research output: Conference Article in Proceeding or Book/Report chapter › Article in proceedings › Research › peer-review*
+
+### [Advancing Face-to-Face Emotion Communication: A Multimodal Dataset (AFFEC)](https://pure.itu.dk/en/publications/advancing-face-to-face-emotion-communication-a-multimodal-dataset/)
+
+Seikavandi, M. J., Dixen, L., Fimland, J., Desu, S. K., Zserai, A.-B., Lee, Y. S., Barrett, M. J. & Burelli, P., 1 Jan 2026, In: IEEE Transactions on Affective Computing.
+
+*Research output: Journal Article or Conference Article in Journal › Journal article › Research › peer-review*
 
 ## 2025
 

@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-08-19 12:24 UTC
+     Written by scripts/update.py on 2026-08-24 08:52 UTC
      5 updates -->
 
 ## Thrilled to be speaking at the Digital Tech Summit on November 5th! 🇩🇰

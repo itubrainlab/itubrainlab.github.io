@@ -1,7 +1,7 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://pure.itu.dk/en/organisations/brain-lab/persons/?format=rss
-     Written by scripts/update.py on 2026-08-19 12:24 UTC
-     8 persons -->
+     Written by scripts/update.py on 2026-08-24 08:52 UTC
+     10 persons -->
 
 ## Lab Coordinators
 
@@ -23,13 +23,11 @@ Play, Culture, and AI - Associate Professor · Creative AI Lab · The Maritime H
 
 ## Lab Members
 
-![](assets/img/people/seyda-begum-ersoz.svg)
+![](assets/img/people/argyri-morfakidou.svg)
 
-### [Seyda Begum Ersoz](https://pure.itu.dk/en/persons/seyda-begum-ersoz/)
+### [Argyri Morfakidou](https://pure.itu.dk/en/persons/argyri-morfakidou/)
 
-[SEYBEG@itu.dk](mailto:SEYBEG@itu.dk)
-
-Play, Culture, and AI - Guest Researcher · brAIn lab
+brAIn lab
 
 ![](assets/img/people/fatemeh-vatani.svg)
 
@@ -46,6 +44,22 @@ Play, Culture, and AI - PhD fellow (enrolled/guest) · Center for Digital Play �
 [mihr@itu.dk](mailto:mihr@itu.dk)
 
 Software Engineering - PhD fellow · Software Engineering · brAIn lab
+
+![](assets/img/people/mads-dalgaard-andersen.svg)
+
+### [Mads Dalgaard Andersen](https://pure.itu.dk/en/persons/mads-dalgaard-andersen-2/)
+
+[admmadsd@itu.dk](mailto:admmadsd@itu.dk)
+
+Data Science - Assistant Lecturer · brAIn lab - Lab Assistant
+
+![](assets/img/people/gabriel-cristian-circiu.svg)
+
+### [Gabriel Cristian Circiu](https://pure.itu.dk/en/persons/gabriel-cristian-circiu/)
+
+[admgaci@itu.dk](mailto:admgaci@itu.dk)
+
+Data Science - Assistant Lecturer · brAIn lab - Lab Assistant
 
 ![](assets/img/people/ramya-rao.svg)
 
