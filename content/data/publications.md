@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://pure.itu.dk/en/organisations/brain-lab/publications/?format=rss
-     Written by scripts/update.py on 2026-08-24 08:52 UTC
+     Written by scripts/update.py on 2026-08-24 14:03 UTC
      22 publications -->
 
 ## 2026

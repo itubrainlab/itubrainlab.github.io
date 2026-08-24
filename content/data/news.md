@@ -1,7 +1,24 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-08-24 08:52 UTC
-     5 updates -->
+     Written by scripts/update.py on 2026-08-24 14:03 UTC
+     6 updates -->
+
+## 🧠 The ITU brAIn lab is set up for the Research Project Market at IT-Universitetet i…
+
+*August 24, 2026*
+
+🧠 The [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) is set up for the Research Project Market at [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/)!
+
+Posters, EEG headsets, eye-trackers, VR — and the brain, of course. Students: come find us in the atrium and let’s talk thesis and project ideas. No prior research experience needed, just curiosity.
+
+See you there! 👋
+
+\#ITU \#brAInLab \#EEG \#GamesResearch \#CognitiveModelling
+
+![](content/media/news/7497653798153154560-1.jpg)
+
+![](content/media/news/authors/burelli.jpg)
+*Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7497653798153154560-qzbW)*
 
 ## Thrilled to be speaking at the Digital Tech Summit on November 5th! 🇩🇰
 
