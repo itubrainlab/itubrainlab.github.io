@@ -7,7 +7,7 @@ Most of the projects in the brAIn lab fall into three (non-exclusive) categories
 You might, for example, study a specific **computer game** using our lab equipment, or develop some **novel machine-learning** model to be able to tackle some specific brain mechanisms and signals.  
 If you are interested in **software development,** the lab is also developing a framework for multi-modal data collection, storage and analysis.
 
-The remainder of this page contains a few ideas for potential Master’s and Bachelor’s theses in the lab. If you are interested in these topics, please do not hesitate to contact us. You can find our email on the [Paople](#/people) page.
+The remainder of this page contains a few ideas for potential Master’s and Bachelor’s theses in the lab. If you are interested in these topics, please do not hesitate to contact us. You can find our email on the [People](#/people) page.
 
 ## Cognition and Deep Learning
 
