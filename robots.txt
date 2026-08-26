@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://itubrainlab.github.io/sitemap.xml

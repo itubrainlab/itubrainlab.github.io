@@ -21,6 +21,32 @@ Then open <http://localhost:8000/>.
 To deploy, copy the whole folder to any static host (GitHub Pages, Netlify, an
 ITU web share, an S3 bucket). Nothing needs to be compiled first.
 
+### Crawlers and the sitemap
+
+`sitemap.xml` and `robots.txt` sit at the repository root. Both were added
+because scanners that crawl by sitemap were being handed HTML and reporting
+"Invalid XML markup": nothing was published at `/sitemap.xml`, so the request
+fell through to GitHub's 404 page.
+
+The sitemap carries **one** URL, and that is not an oversight. The site is a
+hash router — `#/about`, `#/news` and the rest are fragments of a single URL,
+never sent to the server — so there is no second page for a crawler to fetch.
+A tool that wants to audit each page has to be given the route URLs directly,
+as a list, and it has to execute JavaScript: the served HTML is only the shell,
+with an empty `<h1>` and "Loading…" until `app.js` fetches the Markdown.
+
+    https://itubrainlab.github.io/#/about
+    https://itubrainlab.github.io/#/thesis
+    https://itubrainlab.github.io/#/publications
+    https://itubrainlab.github.io/#/datasets
+    https://itubrainlab.github.io/#/people
+    https://itubrainlab.github.io/#/news
+
+Note also that `brainlab.itu.dk` is a 302 to `itubrainlab.github.io` that drops
+the path, so `brainlab.itu.dk/sitemap.xml` answers `200` with the home page
+rather than `404`. Point tools at the `itubrainlab.github.io` address; the
+redirect is configured at ITU, not in this repository.
+
 ### Caching
 
 `index.html` links the stylesheet and the script with a `?v=` token. Bump it
