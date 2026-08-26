@@ -21,6 +21,19 @@ Then open <http://localhost:8000/>.
 To deploy, copy the whole folder to any static host (GitHub Pages, Netlify, an
 ITU web share, an S3 bucket). Nothing needs to be compiled first.
 
+### Caching
+
+`index.html` links the stylesheet and the script with a `?v=` token. Bump it
+whenever `style.css` or `app.js` changes, or returning visitors keep the copy
+their browser cached and never see the change — the Markdown under `content/`
+is fetched with `cache: 'no-cache'` and refreshes on its own, but the shell has
+no such protection. The token only takes effect once the browser re-fetches
+`index.html` itself, so while working locally use a hard reload
+(<kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>) rather than
+trusting what is on screen; `python3 -m http.server` sends no cache headers at
+all, so browsers cache it heuristically and can serve a stale page for a long
+time.
+
 ## Layout
 
 ```
@@ -363,6 +376,60 @@ from the feed is omitted rather than left as an empty heading — so if Pure sto
 listing both coordinators, the page is simply a Lab Members list.
 
 To change who is a coordinator, edit that constant and re-run the script.
+
+## Accessibility
+
+The site targets WCAG 2.2 level AA. The parts that need care are the ones a
+future edit could quietly undo:
+
+- **The router replaces the page without a document load.** A screen reader gets
+  no signal from that on its own, so `announceRoute()` names the new page in the
+  `#route-announcer` live region and moves focus to the `<h1>`, which puts the
+  reader at the top of the new content and makes the next Tab carry on from
+  there. The first render is skipped — that page was not a navigation.
+- **Content photos open in the lightbox, so they are controls.** `markZoomable()`
+  publishes them as `role="button"` with `tabindex="0"` and an accessible name,
+  and Enter or Space opens them. Without that the lightbox would be reachable
+  with a mouse and by nothing else. Inside the dialog Tab wraps around the
+  buttons rather than being swallowed, so the previous/next controls stay
+  reachable; Escape closes and returns focus to the image that opened it.
+- **`scroll-padding-top` on `html`** keeps the sticky header from covering
+  whatever the browser scrolls to, including a Tab landing near the top of the
+  page (WCAG 2.4.11).
+- **A post written in Danish is wrapped in `<div lang="da">`** by `update.py`,
+  or a screen reader reads it aloud in an English voice and it comes out as
+  nonsense (WCAG 3.1.2). `entry_language()` decides, and only distinguishes
+  Danish from English — the two languages the lab posts in.
+- **Alt text on a post photo is whatever its author wrote on LinkedIn**, and
+  empty when they wrote nothing, which marks the photo decorative. That is the
+  honest answer: a generated description would be worse than none. LinkedIn's
+  own "no alternative text" boilerplate is filtered out in `PLACEHOLDER_ALT`,
+  and it is localised, so a portal in a third language needs its phrasing added
+  there.
+- **Portraits and byline avatars carry an empty alt on purpose** — the name is
+  the very next thing in the document, and announcing it twice is noise.
+- **Records are grouped under a year heading** so the outline runs h1 → h2 → h3.
+  A flat list of `###` records under the page's `<h1>` skips a level.
+- **`.entry-content` sets `overflow-wrap: break-word`.** Posts quote long bare
+  URLs, and at 320px an unbreakable one pushes the page sideways (WCAG 1.4.10).
+- **The focus ring is explicit** (`:focus-visible`), white on the dark header and
+  red elsewhere, both well clear of the 3:1 that WCAG 1.4.11 asks for. The page
+  heading keeps its ring too: it is where focus lands after a route change, and
+  hiding the indicator there makes it look as though the keyboard has stopped
+  working.
+
+Checked with every route rendered: no contrast failures at AA, no skipped
+heading levels, no missing `alt`, no duplicate ids, no keyboard traps, and no
+horizontal scrolling at 320px.
+
+Two things are known gaps, both level AAA rather than AA:
+
+- Several entries end with a link reading "view on LinkedIn". Their purpose is
+  clear from the sentence around them, which is what 2.4.4 (level A) asks, but
+  a screen reader's list-of-links view shows them as identical rows.
+- External links open in a new tab without warning (3.2.5). The convention is
+  well established, and the alternative — appending "opens in a new tab" to
+  every link — would be noisier on a site that is mostly outbound links.
 
 ## Notes
 

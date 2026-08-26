@@ -508,6 +508,35 @@ def post_markdown(fragment, follow_links=True):
     return re.sub(r"(?<!\n)\n(?!\n)", "  \n", text)
 
 
+# Danish function words that are not also English words, so that counting them
+# separates the two languages without a word list for either.
+DANISH_WORDS = set("""
+og er det ikke har til af den der kan vi du jeg hvis hvordan om et en ved fra
+eller ogsaa sig blev vaere mere hvor naar skal bliver mellem andre deres meget
+kun efter foer alle sine dette disse denne som med paa jer hun han vil
+""".split())
+
+
+def entry_language(text, default="en"):
+    """Guess a post's language, so the page can mark it up for screen readers.
+
+    WCAG 3.1.2 wants a passage in another language tagged, or a screen reader
+    reads Danish aloud with an English voice and it comes out as nonsense. The
+    lab posts in Danish and English only, so this only has to separate those
+    two: fold the accents away, count the words that are Danish and not also
+    English, and let ae/oe/aa carry extra weight. Anything unclear stays the
+    page default rather than guessing.
+    """
+    words = re.findall(r"[^\W\d_]+", (text or "").lower(), re.UNICODE)
+    if len(words) < 8:
+        return default
+    danish = sum(1 for w in words if ascii_slug(w) in DANISH_WORDS)
+    accented = bool(re.search(r"[æøå]", text, re.I))
+    if (danish >= 5 and danish / len(words) >= 0.06) or (accented and danish >= 3):
+        return "da"
+    return default
+
+
 def undecorate(line):
     """Markdown back to the bare words, for use as a heading."""
     line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)     # links -> their label
@@ -640,8 +669,27 @@ def card_body(fragment, commentary_id, follow_links=True):
             "host": strip_tags(first_group(
                 r'data-test-id="article-content__subtitle"[^>]*>(.*?)</span>', fragment)),
         },
-        "images": [html.unescape(u) for u in re.findall(r'data-delayed-url="([^"]+)"', gallery)],
+        "images": gallery_images(gallery),
     }
+
+
+# LinkedIn fills the alt attribute with its own boilerplate when the author
+# wrote none. The wording follows the page's interface language, so a portal
+# other than the English or Danish one needs its phrasing added here -- get it
+# wrong and the site publishes "no alternative text" as if it were a caption.
+PLACEHOLDER_ALT = re.compile(r"no alternative text|ingen alternativ tekst", re.I)
+
+
+def gallery_images(gallery):
+    """Each photo in a post, with the alt text its author wrote (often none)."""
+    out = []
+    for tag in re.findall(r"<img\b[^>]*>", gallery or ""):
+        url = html.unescape(first_group(r'data-delayed-url="([^"]*)"', tag))
+        if not url:
+            continue
+        alt = strip_tags(first_group(r'alt="([^"]*)"', tag))
+        out.append({"url": url, "alt": "" if PLACEHOLDER_ALT.search(alt) else alt})
+    return out
 
 
 def parse_update(card, permalink="", follow_links=True):
@@ -687,10 +735,13 @@ def media_lines(card, want_photos, write):
     """Photos, then the link preview -- app.js turns a video link into a player."""
     out = []
     shots = []
-    for n, url in enumerate(card["images"], 1):
-        rel = save_news_image(url, "%s-%d" % (card["key"], n), want_photos, write)
+    for n, image in enumerate(card["images"], 1):
+        rel = save_news_image(image["url"], "%s-%d" % (card["key"], n), want_photos, write)
         if rel:
-            shots.append("![](%s)" % rel)
+            # Alt is whatever the author wrote on LinkedIn, and empty when they
+            # wrote nothing -- an empty alt marks the photo as decorative, which
+            # is the honest answer here. Inventing a description would be worse.
+            shots.append("![%s](%s)" % (md_escape(image["alt"]), rel))
     if shots:
         # one paragraph, so the page groups them into a single lightbox gallery
         out.append("%s\n" % "\n".join(shots))
@@ -760,6 +811,14 @@ def news_entry_lines(entry, want_photos, write):
     if credit:
         lines.append("%s*%s*\n" % (avatar_image(entry, want_photos, write) if entry["author"]
                                    else "", " · ".join(credit)))
+
+    # An entry not in the page's own language is wrapped so that assistive
+    # technology switches voice for it. A blank line after the opening tag is
+    # what keeps Markdown parsing inside the div; without it the whole entry
+    # would be passed through as raw HTML.
+    lang = entry_language(entry["text"] + " " + (entry["quoted"]["text"] if entry["quoted"] else ""))
+    if lang != "en":
+        return ['<div lang="%s">\n' % lang] + lines + ["</div>\n"]
     return lines
 
 
@@ -781,51 +840,50 @@ def render_news(cards, source_url, want_photos=True, write=True, follow_links=Tr
 # renderers -- one per feed, each returning a Markdown string
 # --------------------------------------------------------------------------
 
-def render_publications(items, source_url):
+def parse_record(item):
+    """One publication or dataset out of a Pure feed item."""
+    desc = item.findtext("description") or ""
+    title, url = parse_title(desc)
+
+    # everything between the title and the type line is the citation
+    rest = desc.split("</h3>", 1)[1] if "</h3>" in desc else desc
+    rest = re.sub(r'<p class="type">.*?</p>', "", rest, flags=re.S)
+    rest = re.sub(r'<p class="links-doi">.*?</p>', "", rest, flags=re.S)
+
+    return {
+        "title": title or (item.findtext("title") or "").strip(),
+        "url": url or (item.findtext("link") or "").strip(),
+        "citation": strip_tags(rest).strip().strip(",;").strip(),
+        "type": parse_type(desc), "dois": collect_dois(desc),
+    }
+
+
+def render_by_year(items, source_url, noun):
+    """Records under one heading per year, newest first.
+
+    The year headings are not only for browsing: they are the h2 between the
+    page's h1 and each record's h3. Listing the records flat would step from h1
+    straight to h3, which leaves anyone navigating by headings guessing whether
+    they have missed a level.
+    """
     groups = {}
     for item in items:
-        desc = item.findtext("description") or ""
-        title, url = parse_title(desc)
-        title = title or (item.findtext("title") or "").strip()
-        url = url or (item.findtext("link") or "").strip()
-
-        # everything between the title and the type line is the citation
-        rest = desc.split("</h3>", 1)[1] if "</h3>" in desc else desc
-        rest = re.sub(r'<p class="type">.*?</p>', "", rest, flags=re.S)
-        rest = re.sub(r'<p class="links-doi">.*?</p>', "", rest, flags=re.S)
-        citation = strip_tags(rest).strip().strip(",;").strip()
-
-        groups.setdefault(item_year(item), []).append({
-            "title": title, "url": url, "citation": citation,
-            "type": parse_type(desc), "dois": collect_dois(desc),
-        })
+        groups.setdefault(item_year(item), []).append(parse_record(item))
 
     lines = []
     for year in sorted(groups, key=lambda y: (y != "Undated", y), reverse=True):
         lines.append("## %s\n" % year)
         for rec in groups[year]:
             lines.extend(record_block(rec))
-    return finish(lines, source_url, sum(len(v) for v in groups.values()), "publication")
+    return finish(lines, source_url, sum(len(v) for v in groups.values()), noun)
+
+
+def render_publications(items, source_url):
+    return render_by_year(items, source_url, "publication")
 
 
 def render_datasets(items, source_url):
-    lines = []
-    for item in items:
-        desc = item.findtext("description") or ""
-        title, url = parse_title(desc)
-        title = title or (item.findtext("title") or "").strip()
-        url = url or (item.findtext("link") or "").strip()
-
-        rest = desc.split("</h3>", 1)[1] if "</h3>" in desc else desc
-        rest = re.sub(r'<p class="type">.*?</p>', "", rest, flags=re.S)
-        rest = re.sub(r'<p class="links-doi">.*?</p>', "", rest, flags=re.S)
-
-        lines.extend(record_block({
-            "title": title, "url": url,
-            "citation": strip_tags(rest).strip().strip(",;").strip(),
-            "type": parse_type(desc), "dois": collect_dois(desc),
-        }))
-    return finish(lines, source_url, len(items), "dataset")
+    return render_by_year(items, source_url, "dataset")
 
 
 def render_people(items, source_url, want_photos=True, write=True):

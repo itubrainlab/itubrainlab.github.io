@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-08-24 14:03 UTC
+     Written by scripts/update.py on 2026-08-26 10:27 UTC
      6 updates -->
 
 ## 🧠 The ITU brAIn lab is set up for the Research Project Market at IT-Universitetet i…
@@ -75,6 +75,8 @@ We look forward to seeing you!
 ![](content/media/news/authors/pioneer-centre-for-ai.jpg)
 *Posted by [Pioneer Centre for AI (P1)](https://dk.linkedin.com/company/pioneer-centre-for-ai) · [view on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7389783958345027584/)*
 
+<div lang="da">
+
 ## Kan kunstig intelligens forudsige menneskelig adfærd? 🤔
 
 *October 30, 2025*
@@ -106,6 +108,8 @@ Det foregår onsdag den 5. november kl. 9.45.
 
 ![](content/media/news/authors/it-university-of-copenhagen.jpg)
 *Posted by [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7389552909862195201-U87W)*
+
+</div>
 
 ## Congratulations Meisam Jamshidi Seikavandi!
 

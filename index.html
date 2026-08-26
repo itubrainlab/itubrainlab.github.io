@@ -6,7 +6,11 @@
 <title>ITU brAIn lab</title>
 <meta name="description" content="The ITU brAIn lab — research and education at the crossroad between machine learning, psychophysiology, neuroscience and cognition.">
 <link rel="icon" href="assets/img/mark.png">
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- ?v= is a cache buster. The stylesheet and the script are served with no
+     versioning of their own, so without it a returning visitor keeps whatever
+     copy their browser cached and never sees a change to either. Bump the
+     number whenever style.css or app.js changes. -->
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 </head>
 <body>
 
@@ -39,7 +43,7 @@
 </header>
 
 <div class="container page-wrapper">
-  <main id="main" class="site-main">
+  <main id="main" class="site-main" tabindex="-1">
     <article class="entry">
       <h1 class="entry-title" id="page-title"></h1>
       <div class="entry-content" id="page-content">
@@ -48,9 +52,9 @@
     </article>
   </main>
 
-  <aside class="sidebar" id="sidebar" hidden>
+  <aside class="sidebar" id="sidebar" aria-labelledby="news-widget-title" hidden>
     <section class="widget">
-      <h2 class="widget-title">News</h2>
+      <h2 class="widget-title" id="news-widget-title">News</h2>
       <ul class="news-list" id="news-list"></ul>
     </section>
   </aside>
@@ -70,7 +74,11 @@
   </div>
 </footer>
 
+<!-- The router replaces the page without a document load, so the new page's
+     name is announced here instead. -->
+<p class="visually-hidden" id="route-announcer" role="status" aria-live="polite"></p>
+
 <script src="assets/js/marked.min.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js?v=2"></script>
 </body>
 </html>

@@ -1,9 +1,15 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://pure.itu.dk/en/organisations/brain-lab/publications/?format=rss
-     Written by scripts/update.py on 2026-08-24 14:03 UTC
-     22 publications -->
+     Written by scripts/update.py on 2026-08-26 10:25 UTC
+     24 publications -->
 
 ## 2026
+
+### [High-quality generation of dynamic game content via small language models - A proof of concept](https://pure.itu.dk/en/publications/high-quality-generation-of-dynamic-game-content-via-small-languag/)
+
+Munk, M. I. K., Martinez, A. V. & Burelli, P., 2026, Proceedings of the 21th International Conference on the Foundations of Digital Games. Association for Computing Machinery, 13 p. 45. (Proceedings of the International Conference on Foundation of Digital Games (FDG)).
+
+*Research output: Conference Article in Proceeding or Book/Report chapter › Article in proceedings › Research › peer-review*
 
 ### [Confusion and games: An investigation on the Player Learning Experience](https://pure.itu.dk/en/publications/confusion-and-games-an-investigation-on-the-player-learning-exper/)
 
@@ -16,6 +22,12 @@ Volden, T. V. S., 2026, IT-Universitetet i København. 138 p.
 Dixen, L., 2026, IT-Universitetet. 333 p.
 
 *Research output: Theses › PhD thesis*
+
+### [Spatiotemporal Convolutions on EEG signal: A Representation Learning Perspective on Efficient and Explainable EEG Classification with Convolutional](https://pure.itu.dk/en/publications/spatiotemporal-convolutions-on-eeg-signal-a-representation-learni/)
+
+Dixen, L., Heinrich, S. & Burelli, P., 2026, 4th Cognitive Models and Artificial Intelligence Conference. IEEE, 8 p. (Proceedings of the Cognitive Models and Artificial Intelligence Conference).
+
+*Research output: Conference Article in Proceeding or Book/Report chapter › Article in proceedings › Research › peer-review*
 
 ### [Modelling the Interplay of Eye-Tracking Temporal Dynamics and Personality for Emotion Detection in Face-to-Face Settings](https://pure.itu.dk/en/publications/modelling-the-interplay-of-eye-tracking-temporal-dynamics-and-per/)
 

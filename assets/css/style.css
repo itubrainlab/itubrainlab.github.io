@@ -24,7 +24,44 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* The header is sticky, so anything the browser scrolls to — a Tab landing on
+     a link near the top, or an in-page anchor — would end up underneath it.
+     WCAG 2.4.11 asks that a focused control not be hidden; this reserves the
+     header's height on every such scroll. */
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* Text for assistive technology only: still announced, never painted. Not
+   `display: none`, which would take it out of the accessibility tree too. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A visible focus ring everywhere, in a colour that holds up on the white page
+   and on the black header alike. */
+:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.site-header :focus-visible,
+.lightbox :focus-visible { outline-color: #fff; }
 
 body {
   margin: 0;
@@ -77,7 +114,14 @@ img { max-width: 100%; height: auto; }
   position: absolute; left: -9999px; top: 0; z-index: 100;
   background: var(--red); color: #fff; padding: 10px 18px;
 }
-.skip-link:focus { left: 0; }
+.skip-link:focus { left: 0; outline: 3px solid #fff; outline-offset: -6px; }
+
+/* Moving focus to the page heading is what tells a screen reader the route
+   changed. Sighted keyboard users need to see that too: hiding the ring here
+   means the indicator vanishes on every navigation and they lose their place,
+   which reads as the keyboard having stopped working. Offset inwards so it
+   frames the title rather than the whole column. */
+.entry-title:focus-visible { outline-offset: 4px; }
 
 /* ---------- Header / navigation ---------- */
 
@@ -137,6 +181,8 @@ img { max-width: 100%; height: auto; }
 .page-wrapper.no-sidebar { grid-template-columns: minmax(0, 1fr); }
 
 .site-main { min-width: 0; }
+
+.entry-content { overflow-wrap: break-word; }
 
 .entry {
   background: var(--card);
