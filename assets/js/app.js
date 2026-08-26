@@ -28,8 +28,13 @@
     news:    document.getElementById('news-list'),
     wrapper: document.querySelector('.page-wrapper'),
     menu:    document.getElementById('nav-menu'),
-    toggle:  document.getElementById('nav-toggle')
+    toggle:  document.getElementById('nav-toggle'),
+    announcer: document.getElementById('route-announcer')
   };
+
+  /* The first render is the page the visitor asked for, so it is left alone;
+     every later one is a navigation they triggered, and those move focus. */
+  var firstRender = true;
 
   var cache = {};
 
@@ -194,6 +199,7 @@
 
       document.title = title + ' — ITU brAIn lab';
       els.title.textContent = title;
+      els.title.tabIndex = -1;
 
       var showSidebar = parsed.meta.sidebar === 'news';
       els.sidebar.hidden = !showSidebar;
@@ -210,9 +216,11 @@
           img.decoding = 'async';
         });
         embedVideos();
+        markZoomable();
         decorateExternalLinks();
         if (route.name === 'news') tagNewsEntries();
         scrollToTarget(route.query.get('e'));
+        announceRoute(title);
       });
     }).catch(function (err) {
       els.sidebar.hidden = true;
@@ -226,6 +234,17 @@
         '<p><code>python3 -m http.server 8000</code></p>' +
         '<p>then open <a href="http://localhost:8000/">http://localhost:8000/</a>.</p>';
     });
+  }
+
+  /* Nothing about a hash change tells a screen reader the page was replaced:
+     there is no document load, and focus stays wherever it was — usually on a
+     nav link, above content that is now completely different. So name the new
+     page in a live region and move focus to its heading, which puts the reader
+     at the top of the new content and makes the next Tab continue from there. */
+  function announceRoute(title) {
+    if (firstRender) { firstRender = false; return; }
+    if (els.announcer) els.announcer.textContent = title;
+    els.title.focus();
   }
 
   /* Turn a video URL into a player URL, or return null if it is not one. */
@@ -339,7 +358,22 @@
     return img.tagName === 'IMG' &&
            els.content.contains(img) &&
            !img.closest('.record-list') &&
-           !isBylineAvatar(img);
+           !isBylineAvatar(img) &&
+           // an image inside a link should follow the link instead
+           !img.closest('a');
+  }
+
+  /* An <img> is not focusable and has no role, so on its own the lightbox
+     would be reachable with a mouse and by no other means. Publish the ones
+     that open as buttons, named after their alt text where they have one. */
+  function markZoomable() {
+    els.content.querySelectorAll('img').forEach(function (img) {
+      if (!isZoomable(img)) return;
+      var alt = img.getAttribute('alt');
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', alt ? 'Enlarge image: ' + alt : 'Enlarge image');
+    });
   }
 
   function isBylineAvatar(img) {
@@ -383,6 +417,7 @@
       var src = state.group[state.index];
       img.src = src.currentSrc || src.src;
       var text = src.getAttribute('alt') || '';
+      img.alt = text;
       cap.textContent = text;
       cap.hidden = !text;
       var many = state.group.length > 1;
@@ -414,12 +449,27 @@
       if (!e.target.closest('.lightbox-figure')) close();   // click the backdrop
     });
 
+    /* Keep Tab inside the dialog by wrapping it round, rather than swallowing
+       it: blocking Tab pinned focus to whichever button the dialog opened on
+       and left the previous/next controls unreachable from the keyboard.
+       Hidden buttons are display:none in the stylesheet, so a one-image group
+       correctly traps on the close button alone. */
+    function trapTab(e) {
+      var stops = [].slice.call(box.querySelectorAll('button:not([hidden])'));
+      if (!stops.length) return;
+      var edge = stops[e.shiftKey ? 0 : stops.length - 1];
+      if (document.activeElement === edge || !box.contains(document.activeElement)) {
+        e.preventDefault();
+        stops[e.shiftKey ? stops.length - 1 : 0].focus();
+      }
+    }
+
     document.addEventListener('keydown', function (e) {
       if (box.hidden) return;
       if (e.key === 'Escape') { close(); }
       else if (e.key === 'ArrowLeft' && state.group.length > 1) { show(state.index - 1); }
       else if (e.key === 'ArrowRight' && state.group.length > 1) { show(state.index + 1); }
-      else if (e.key === 'Tab') { e.preventDefault(); }   // keep focus in the dialog
+      else if (e.key === 'Tab') { trapTab(e); }
       else { return; }
       e.stopPropagation();
     });
@@ -430,12 +480,15 @@
   function setupLightbox() {
     lightbox = buildLightbox();
     els.content.addEventListener('click', function (e) {
-      var img = e.target;
-      if (!isZoomable(img)) return;
-      // an image wrapped in a link should follow the link instead
-      if (img.closest('a')) return;
+      if (!isZoomable(e.target)) return;
       e.preventDefault();
-      lightbox.open(img);
+      lightbox.open(e.target);
+    });
+    els.content.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (!isZoomable(e.target)) return;
+      e.preventDefault();               // Space would otherwise scroll the page
+      lightbox.open(e.target);
     });
   }
 
