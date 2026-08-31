@@ -11,7 +11,8 @@ The remainder of this page contains a few ideas for potential Master’s and Bac
 
 ## Cognition and Deep Learning
 
-- **Explainable reppresentation learning of the brain activity**: use deep learning and explainable AI methods to investigate brain activity and identify emerging complex patterns.
+- **Explainable representation learning of the brain activity**: use deep learning and explainable AI methods to investigate brain activity and identify emerging complex patterns.
+- **Cognitive modelling**: develop computational models for cognitive phenomena in various fields including mechanisms behind language acquisition, neurodiversity (ASD, ADHC etc.), or neurodevelopment (learning, neurodegeneration etc.). 
 - **EEG disentanglement**: learn disentangled representations that separate subject-specific, task-specific and noise components of the EEG signal.
 - **Privacy and synthesis of biometric data**: study re-identification risks in brain and body signals and explore anonymisation and privacy-preserving learning techniques.
 - **EEG foundation models**: investigate large-scale self-supervised pre-training on EEG corpora and transfer across datasets, subjects and tasks.
@@ -19,10 +20,11 @@ The remainder of this page contains a few ideas for potential Master’s and Bac
 ## Human-AI Interaction
 
 - **Small Language Models for real-time interactive agents**: work with small scale specialised language models to create smart agents in video games.
-- **Programming with AI**: investigate the cognitive impact of agentic programming, prompt egineering and other AI innovations in software development.
-- **Recoving from AI disasters**: what happens when the AI fails and we need to take over? explore how estreme automation affects human skills and how to design AI based systems that support a healty and safe human-AI interaction.
+- **Hallucinations in VR**: study how natural or AI-driven perceptual hallucinations impact cognitive functions. 
+- **Programming with AI**: investigate the cognitive impact of agentic programming, prompt engineering and other AI innovations in software development.
+- **Recovering from AI disasters**: what happens when the AI fails and we need to take over? explore how extreme automation affects human skills and how to design AI based systems that support a healthy and safe human-AI interaction.
 
-## Affective Computing and BCI
+## BCI and Affective Computing
 
 - **BCI**: explore and experiment with passive and active brain computer interfaces for natural interaction.
 - **User and Player Modelling**: develop models to analyse and predict the user experience of players during their interaction in video games.
