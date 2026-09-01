@@ -12,7 +12,7 @@ The remainder of this page contains a few ideas for potential Master’s and Bac
 ## Cognition and Deep Learning
 
 - **Explainable representation learning of the brain activity**: use deep learning and explainable AI methods to investigate brain activity and identify emerging complex patterns.
-- **Cognitive modelling**: develop computational models for cognitive phenomena in various fields including mechanisms behind language acquisition, neurodiversity (ASD, ADHC etc.), or neurodevelopment (learning, neurodegeneration etc.). 
+- **Cognitive modelling**: develop computational models for cognitive phenomena in various fields including mechanisms behind neurodiversity (ASD, ADHC etc.), neurodevelopment (mental disorder emergence, learning etc.), or language acquisition. 
 - **EEG disentanglement**: learn disentangled representations that separate subject-specific, task-specific and noise components of the EEG signal.
 - **Privacy and synthesis of biometric data**: study re-identification risks in brain and body signals and explore anonymisation and privacy-preserving learning techniques.
 - **EEG foundation models**: investigate large-scale self-supervised pre-training on EEG corpora and transfer across datasets, subjects and tasks.
