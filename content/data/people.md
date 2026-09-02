@@ -1,7 +1,7 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://pure.itu.dk/en/organisations/brain-lab/persons/?format=rss
-     Written by scripts/update.py on 2026-08-26 10:25 UTC
-     10 persons -->
+     Written by scripts/update.py on 2026-09-02 15:42 UTC
+     9 persons -->
 
 ## Lab Coordinators
 
@@ -60,14 +60,6 @@ Data Science - Assistant Lecturer · brAIn lab - Lab Assistant
 [admgaci@itu.dk](mailto:admgaci@itu.dk)
 
 Data Science - Assistant Lecturer · brAIn lab - Lab Assistant
-
-![](assets/img/people/ramya-rao.svg)
-
-### [Ramya Rao](https://pure.itu.dk/en/persons/ramya-rao/)
-
-[ramr@itu.dk](mailto:ramr@itu.dk)
-
-Play, Culture, and AI - PhD fellow (enrolled/guest) · brAIn lab
 
 ![](assets/img/people/morten-ib-kjaergaard-munk.svg)
 

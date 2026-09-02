@@ -1,7 +1,19 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-08-26 10:27 UTC
-     6 updates -->
+     Written by scripts/update.py on 2026-09-02 15:42 UTC
+     7 updates -->
+
+## The ITU brAIn lab team is in Madrid for the IEEE Conference on Games.
+
+*September 2, 2026*
+
+The ITU brAIn lab team is in Madrid for the IEEE Conference on Games. Among many awesome presentations on game AI, PCG and player experience, Oleg Jarma Montoya presented our pilot study on player experience and psychophysiology "Atari Games Challenge: A Pilot Study on Multimodal Player Experience Assessment ([arxiv.org/abs/2605.27261](https://arxiv.org/abs/2605.27261)).  
+He discussed the nature of the dataset ([zenodo.org/records/17699260](https://zenodo.org/records/17699260)), some early results of the study and his analysis on the nature and characteristics of immersion, mastery and challenge in games.
+
+![](content/media/news/7500940407497895936-1.jpg)
+
+![](content/media/news/authors/burelli.jpg)
+*Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/posts/itu-brain-lab_activity-7500940407497895936-Y4sb)*
 
 ## 🧠 The ITU brAIn lab is set up for the Research Project Market at IT-Universitetet i…
 
