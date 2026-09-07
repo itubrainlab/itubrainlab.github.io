@@ -1,13 +1,33 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-09-02 15:42 UTC
-     7 updates -->
+     Written by scripts/update.py on 2026-09-07 16:50 UTC
+     8 updates -->
+
+## The poster is ready for ECCV 2026! 🎉
+
+*September 7, 2026*
+
+This Wednesday afternoon, I’ll present our paper, “From Windows to Sequences: Modality-Aware Temporal Learning for Wearable Affect Sensing,” at the WearableAI workshop.  
+I’ll be sharing GroupAffect-4, our multimodal dataset of four-person conversations, and what we learned about modelling wearable signals across different timescales.  
+If you’re in Malmö and interested in wearable AI, multimodal sensing or understanding listeners in real conversations, come by and say hello—I’d love to chat!  
+📅 Wednesday, 9 September, 14:40–15:30  
+ 📍 Malmömässan Exhibit Hall, ECCV 2026
+
+[Tanya Ignatenko](https://nl.linkedin.com/in/tanya-ignatenko-373bb82) [Fabricio Batista Narcizo](https://dk.linkedin.com/in/fabricionarcizo) [Paolo Burelli](https://dk.linkedin.com/in/burelli) [Jesper Bünsow Boldt](https://dk.linkedin.com/in/jbboldt) [Andrew Dittberner](https://www.linkedin.com/in/andrew-dittberner-5233783)
+
+[GN Advanced Science](https://dk.linkedin.com/showcase/gn-advanced-science/) [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/)  
+\#ECCV2026 \#WearableAI \#MultimodalAI \#AffectiveComputing \#CogniSense \#GNHearing
+
+![](content/media/news/7502677201964756992-1.jpg)
+
+![](content/media/news/authors/meisam-jamshidi-seikavandi.jpg)
+*Posted by [Meisam Jamshidi Seikavandi](https://dk.linkedin.com/in/meisam-jamshidi-seikavandi) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7502677201964756992-y9ZK)*
 
 ## The ITU brAIn lab team is in Madrid for the IEEE Conference on Games.
 
 *September 2, 2026*
 
-The ITU brAIn lab team is in Madrid for the IEEE Conference on Games. Among many awesome presentations on game AI, PCG and player experience, Oleg Jarma Montoya presented our pilot study on player experience and psychophysiology "Atari Games Challenge: A Pilot Study on Multimodal Player Experience Assessment ([arxiv.org/abs/2605.27261](https://arxiv.org/abs/2605.27261)).  
+The [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab)  team is in Madrid for the [IEEE Conference on Games](https://pt.linkedin.com/company/ieee-conference-on-games). Among many awesome presentations on game AI, PCG and player experience, [Oleg J.](https://dk.linkedin.com/in/ojarmam)  presented our pilot study on player experience and psychophysiology "Atari Games Challenge: A Pilot Study on Multimodal Player Experience Assessment ([arxiv.org/abs/2605.27261](https://arxiv.org/abs/2605.27261)).  
 He discussed the nature of the dataset ([zenodo.org/records/17699260](https://zenodo.org/records/17699260)), some early results of the study and his analysis on the nature and characteristics of immersion, mastery and challenge in games.
 
 ![](content/media/news/7500940407497895936-1.jpg)
