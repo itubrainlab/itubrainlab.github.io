@@ -23,15 +23,13 @@ jobs:
         python-version: "3.10"
     - name: Run update script
       run: python scripts/update.py
-    - name: switching from HTTPS to SSH
-      run: git remote set-url origin ${{ secrets.ssh }}
-    - name: check for changes
-      run: git status
+    - name: Set username
+      run: git config --local user.name "paoloburelli"
+    - name: Set email
+      run: git config --local user.email "burelli@gmail.com"
     - name: stage changed files
-      run: git add content/data
+      run: git add ./content/data
     - name: commit changed files
       run: git commit -m "Auto updating site data.txt"
-    - name: fetch from master
-      run: git fetch origin master
     - name: push code to master
-      run: git push origin HEAD:master
+      run: git push -f origin main
