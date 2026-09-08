@@ -3,10 +3,11 @@
 
 name: update-content
 
-on:
+on: 
    schedule:
      - cron: "15 4 * * 1"
-
+   workflow_dispatch:
+        
 permissions:
   contents: write
 
