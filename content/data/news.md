@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-09-08 09:41 UTC
+     Written by scripts/update.py on 2026-09-08 09:47 UTC
      8 updates -->
 
 ## The poster is ready for ECCV 2026! 🎉
