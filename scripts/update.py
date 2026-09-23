@@ -1,26 +1,32 @@
 #!/usr/bin/env python3
-"""Refresh the brAIn lab site content from ITU's Pure research portal and LinkedIn.
+"""Refresh the brAIn lab site content from ITU's Researcher Portal and LinkedIn.
 
 Writes plain Markdown into content/data/:
 
-    content/data/publications.md   <- pure.itu.dk/.../publications/?format=rss
-    content/data/datasets.md       <- pure.itu.dk/.../datasets/?format=rss
-    content/data/people.md         <- pure.itu.dk/.../persons/?format=rss
+    content/data/publications.md   <- researcher.itu.dk GraphQL API (publications)
+    content/data/datasets.md       <- researcher.itu.dk GraphQL API (datasets)
+    content/data/people.md         <- researcher.itu.dk GraphQL API (persons)
     content/data/news.md           <- linkedin.com/company/itu-brain-lab
 
 Standard library only -- no pip install, no build step.
 
 Usage:
     python3 scripts/update.py                 # every source, English portal
-    python3 scripts/update.py --lang da       # use the Danish Pure portal
+    python3 scripts/update.py --lang da       # use the Danish portal
     python3 scripts/update.py news            # refresh one source only
     python3 scripts/update.py --dry-run
 
-Note on datasets: the human-readable page at
-https://pure.itu.dk/en/organisations/brain-lab/datasets/ sits behind a
-Cloudflare browser challenge and cannot be scraped from a script. The
-?format=rss view of that same listing is not challenged and carries the same
-records, so that is what this script reads.
+The ITU Pure portal (pure.itu.dk) has been replaced by a Next.js-based
+Researcher Portal at researcher.itu.dk.  The new portal exposes a public
+GraphQL API at /p/public/graphql; the brain-lab organisation UUID is used
+as a "super filter" to scope search results to its members, publications
+and datasets.  The API requires an X-ELS-TOKEN: true header and Cloudflare
+cookies, so a page is fetched first to warm up the cookie jar.
+
+Person emails are not available through the search API; each person's page
+is fetched individually and the email is extracted from the embedded
+__NEXT_DATA__ JSON.  Portrait URLs, by contrast, come directly from the
+search response -- no per-person page fetch is needed for images.
 
 Note on news: LinkedIn publishes no feed for a company page, so the five
 updates it renders for logged-out visitors are read off the page itself. A
@@ -30,25 +36,39 @@ photos, date and permalink rather than an empty shell.
 """
 
 import argparse
-import base64
 import html
+import json
 import os
 import re
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import http.cookiejar
 import unicodedata
-import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
-BASE = "https://pure.itu.dk/{lang}/organisations/brain-lab/{section}/?format=rss"
+# --------------------------------------------------------------------------
+# portal configuration
+# --------------------------------------------------------------------------
+
+# The new ITU researcher portal (replacing pure.itu.dk) is a Next.js app
+# backed by a public GraphQL API. The brain-lab organisation UUID is used
+# as a "super filter" to scope search results to its members.
+GRAPHQL_URL = "https://researcher.itu.dk/p/public/graphql"
+ORG_UUID = "71de2b8f-5ff8-4d9e-a233-25a47f156580"
+SITE_HOSTNAME = "researcher.itu.dk"
+PORTAL_BASE = "https://researcher.itu.dk/p/{lang}"
+SOURCE_URL = PORTAL_BASE.format(lang="en") + "/organisations/brain-lab"
 
 FEEDS = {
-    "publications": {"section": "publications", "out": "publications.md"},
-    "datasets":     {"section": "datasets",     "out": "datasets.md"},
-    "people":       {"section": "persons",      "out": "people.md"},
-    "news":         {"linkedin": True,          "out": "news.md"},
+    "publications": {"content_type": "researchOutput", "order_by": "DATE_DESC",
+                     "out": "publications.md"},
+    "datasets":     {"content_type": "dataset",        "order_by": "DATE_DESC",
+                     "out": "datasets.md"},
+    "people":       {"content_type": "person",          "order_by": "LASTNAME_FIRSTNAME_ASC",
+                     "out": "people.md"},
+    "news":         {"linkedin": True, "out": "news.md"},
 }
 
 # The lab's LinkedIn page. dk.linkedin.com serves the same page with a Danish
@@ -59,11 +79,11 @@ LINKEDIN_URL = "https://www.linkedin.com/company/itu-brain-lab"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "content", "data")
 
-# Portraits. Pure's person feed carries no images, so each person's Pure page is
-# fetched and the portrait pulled out of it, then saved locally — the site stays
-# self-contained rather than hotlinking pure.itu.dk on every page view.
+# Portraits. The search API carries portrait URLs, so each portrait is
+# downloaded and saved locally — the site stays self-contained rather than
+# hotlinking researcher.itu.dk on every page view.
 # Most people have no portrait uploaded; those get a generated initials
-# monogram so the contacts list stays visually even.
+# monogram so the contacts-list stays visually even.
 PHOTO_DIR = os.path.join(ROOT, "assets", "img", "people")
 PHOTO_REL = "assets/img/people"
 PHOTO_WIDTH = 320        # 2x the 76px the page renders them at, for retina
@@ -83,10 +103,11 @@ NEWS_AVATAR_REL = NEWS_MEDIA_REL + "/authors"
 
 # The people list is split into "Lab Coordinators" and "Lab Members". Anyone
 # matched here lands in the first group, in the order given; everyone else keeps
-# the order Pure returned. Each entry is matched on the Pure person-page slug
-# first, falling back to the display name, so a renamed slug does not silently
-# demote someone to Lab Members. A coordinator missing from the feed is simply
-# skipped -- the group only appears if at least one of them is present.
+# the order the API returned. Each entry is matched on the portal person-page
+# slug first, falling back to the display name, so a renamed slug does not
+# silently demote someone to Lab Members. A coordinator missing from the feed
+# is simply skipped -- the group only appears if at least one of them is
+# present.
 COORDINATORS = [
     {"slug": "stefan-heinrich", "name": "Stefan Heinrich"},
     {"slug": "paolo-burelli",   "name": "Paolo Burelli"},
@@ -98,6 +119,13 @@ USER_AGENT = (
 )
 TIMEOUT = 30
 
+# A shared cookie jar so Cloudflare's __cf_bm / _cfuvid cookies from an
+# initial page fetch are sent with every subsequent request, including the
+# GraphQL API call.
+_COOKIE_JAR = http.cookiejar.CookieJar()
+_OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_COOKIE_JAR))
+_OPENER.addheaders = [("User-Agent", USER_AGENT)]
+
 
 # --------------------------------------------------------------------------
 # fetching
@@ -106,33 +134,42 @@ TIMEOUT = 30
 def fetch(url):
     req = urllib.request.Request(url, headers={
         "User-Agent": USER_AGENT,
-        "Accept": "text/html, application/rss+xml, application/xml, text/xml, */*",
+        "Accept": "text/html, application/json, */*",
         "Accept-Language": "en-US,en;q=0.9,da;q=0.8",
     })
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as res:
+        with _OPENER.open(req, timeout=TIMEOUT) as res:
             return res.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
-        if e.code == 403 and "pure.itu.dk" in url:
-            raise SystemExit(
-                "error: Pure returned 403 for %s\n"
-                "       This usually means a Cloudflare challenge. Check that the URL\n"
-                "       still ends in '?format=rss' -- the plain HTML views are blocked." % url
-            )
         if e.code in (403, 429, 999):
             raise SystemExit(
                 "error: HTTP %s fetching %s\n"
-                "       LinkedIn rate-limits and occasionally walls off guest views.\n"
-                "       Wait a while and try again; the other sources are unaffected."
-                % (e.code, url)
+                "       The portal or LinkedIn may be rate-limiting or walling "
+                "off guest views.  Wait a while and try again." % (e.code, url)
             )
         raise SystemExit("error: HTTP %s fetching %s" % (e.code, url))
     except urllib.error.URLError as e:
         raise SystemExit("error: could not reach %s (%s)" % (url, e.reason))
 
 
+def try_fetch(url, binary=False):
+    """Best-effort fetch. Portraits and images are a nice-to-have, so failures
+    are not fatal."""
+    req = urllib.request.Request(url, headers={
+        "User-Agent": USER_AGENT,
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9,da;q=0.8",
+    })
+    try:
+        with _OPENER.open(req, timeout=TIMEOUT) as res:
+            raw = res.read()
+        return raw if binary else raw.decode("utf-8", "replace")
+    except Exception:
+        return None
+
+
 # --------------------------------------------------------------------------
-# small HTML helpers (Pure's RSS packs rendered HTML inside <description>)
+# small HTML / text helpers
 # --------------------------------------------------------------------------
 
 def strip_tags(fragment):
@@ -152,53 +189,10 @@ def first_group(pattern, text, default=""):
     return m.group(1) if m else default
 
 
-def parse_title(desc):
-    """Return (title, url) from the <h3 class="title"> block."""
-    block = first_group(r'<h3 class="title">(.*?)</h3>', desc)
-    url = first_group(r'href="([^"]+)"', block)
-    return strip_tags(block), html.unescape(url)
-
-
-def parse_type(desc):
-    return strip_tags(first_group(r'<p class="type">(.*?)</p>', desc))
-
-
-def collect_dois(desc):
-    """Return DOI links as (label, url) pairs, de-duplicated, order preserved."""
-    block = first_group(r'<p class="links-doi">(.*?)</p>', desc)
-    out, seen = [], set()
-    for url in re.findall(r'href="(https?://[^"]+)"', block):
-        url = html.unescape(url)
-        if url in seen:
-            continue
-        seen.add(url)
-        label = url.split("doi.org/", 1)[1] if "doi.org/" in url else url
-        out.append((label, url))
-    return out
-
-
-def decode_pure_email(desc):
-    """Pure obfuscates addresses as base64 'mailto:...' in a data-md5 attribute."""
-    for token in re.findall(r'data-md5="([^"]+)"', desc):
-        try:
-            decoded = base64.b64decode(token + "===").decode("utf-8", "replace")
-        except Exception:
-            continue
-        m = re.search(r"mailto:([^\s\"'<>]+@[^\s\"'<>]+)", decoded)
-        if m:
-            return m.group(1)
-    return ""
-
-
-def slugish(text):
-    """Fallback slug for a person with no Pure URL, so the file still gets a name."""
-    return ascii_slug(text) or "person"
-
-
 def ascii_slug(text):
     """Fold to plain ASCII for use as a filename.
 
-    Pure slugs can contain non-ASCII ('morten-ib-kjaergaard-munk' arrives as
+    Portal slugs can contain non-ASCII ('morten-ib-kjaergaard-munk' arrives as
     ...kj%C3%A6rgaard...). Keeping that in a filename invites trouble: URLs need
     escaping, and macOS stores decomposed forms while Linux servers do not, so
     the same name can round-trip differently on each. Fold it once here instead.
@@ -212,37 +206,184 @@ def ascii_slug(text):
     return re.sub(r"[^a-z0-9]+", "-", folded.lower()).strip("-")
 
 
-def try_fetch(url, binary=False):
-    """Best-effort fetch. Portraits are a nice-to-have, so failures are not fatal."""
-    req = urllib.request.Request(url, headers={
-        "User-Agent": USER_AGENT,
-        "Accept": "*/*",
-        "Accept-Language": "en-US,en;q=0.9,da;q=0.8",
-    })
+def slugish(text):
+    """Fallback slug for a person with no portal URL, so the file still gets a name."""
+    return ascii_slug(text) or "person"
+
+
+def format_date(iso_date):
+    """'2025-11-24' -> '24 Nov 2025'."""
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as res:
-            raw = res.read()
-        return raw if binary else raw.decode("utf-8", "replace")
-    except Exception:
-        return None
+        parts = iso_date.split("-")
+        y, m, d = parts[0], int(parts[1]), int(parts[2])
+        return "%d %s %s" % (d, months[m - 1], y)
+    except (ValueError, IndexError):
+        return iso_date
 
 
-def portrait_url(page_html):
-    """Pull the portrait out of a Pure person page, at the size we want.
+# --------------------------------------------------------------------------
+# GraphQL search
+# --------------------------------------------------------------------------
 
-    Pure marks it up as <img src="/files-asset/..." class="image">. People
-    without an uploaded portrait have no such tag at all — the page falls back
-    to a generic placeholder — so returning None here is the normal case.
+_GQL_FRAGMENTS = {
+    "person": """
+            ... on PersonNode {
+                uuid slug fullName
+                organisationAssociations {
+                    primary
+                    organisation { name { value } slug }
+                    jobDisplayName { value }
+                }
+                portrait { image { rendition(fill: "%dx%d") { url } } }
+            }""" % (PHOTO_WIDTH, PHOTO_WIDTH),
+    "researchOutput": """
+            ... on ResearchOutputNode {
+                uuid slug title
+                formattedCitations { format citation }
+                type { displayName { value } parent { displayName { value } } }
+                doi { doi isOpenAccess }
+                publicationDate
+                electronicVersionsNoDoi { title url type }
+            }""",
+    "dataset": """
+            ... on DatasetNode {
+                uuid slug
+                datasetTitle { value }
+                type { displayName { value } }
+                publisher { name }
+                publicationAvailableDate
+                doi { doi isOpenAccess }
+                documents { title url type }
+                personAssociations { fullName person { slug fullName }
+                                     role { displayName { value } } }
+            }""",
+}
+
+
+def gql_search(content_type, order_by, lang="en"):
+    """Query the researcher portal's public GraphQL API for brain-lab content.
+
+    Returns a list of node dicts. The brain-lab organisation UUID is used as
+    a super filter so only its members / publications / datasets come back.
+    The API caps page size at 100, so cursor-based pagination is used to
+    gather every result.
     """
-    m = re.search(r'<img[^>]*src="(/files-asset/[^"]+)"[^>]*class="image"', page_html)
-    if not m:
-        return None
-    src = html.unescape(m.group(1)).split("?")[0]
-    return "https://pure.itu.dk%s?w=%d&f=jpg" % (src, PHOTO_WIDTH)
+    # Warm up Cloudflare cookies with a lightweight page fetch.
+    try_fetch(PORTAL_BASE.format(lang=lang))
 
+    query = (
+        "query Search($contentSpec: ContentSpec, $superFilterUuid: String,"
+        " $superFilterType: ContentTypeEnum, $first: Int, $after: String,"
+        " $languageCode: String, $siteHostname: String) {"
+        "  search(query: \"\", languageCode: $languageCode, first: $first,"
+        " after: $after, content: $contentSpec, superFilterUuid: $superFilterUuid,"
+        " superFilterType: $superFilterType, siteHostname: $siteHostname) {"
+        "    pageInfo { totalCount pageCount endCursor }"
+        "    edges { node { __typename %s } cursor }"
+        "  }"
+        "}" % _GQL_FRAGMENTS[content_type]
+    )
+
+    page_size = 100          # the API rejects anything larger
+    nodes, after = [], None
+
+    while True:
+        variables = {
+            "contentSpec": {content_type: {"orderBy": order_by, "filter": {}}},
+            "superFilterUuid": ORG_UUID,
+            "superFilterType": "OrganisationNode",
+            "first": page_size,
+            "languageCode": lang,
+            "siteHostname": SITE_HOSTNAME,
+        }
+        if after:
+            variables["after"] = after
+
+        req = urllib.request.Request(
+            GRAPHQL_URL,
+            data=json.dumps({"query": query, "variables": variables}).encode(),
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": USER_AGENT,
+                "X-ELS-TOKEN": "true",
+            },
+        )
+        try:
+            with _OPENER.open(req, timeout=TIMEOUT) as res:
+                data = json.loads(res.read())
+        except urllib.error.HTTPError as e:
+            raise SystemExit("error: HTTP %s fetching %s" % (e.code, GRAPHQL_URL))
+        except urllib.error.URLError as e:
+            raise SystemExit("error: could not reach %s (%s)" % (GRAPHQL_URL, e.reason))
+
+        if "errors" in data:
+            raise SystemExit("error: GraphQL API returned errors: %s"
+                             % "; ".join(e.get("message", "") for e in data["errors"]))
+
+        search = (data.get("data") or {}).get("search")
+        if search is None:
+            raise SystemExit(
+                "error: GraphQL search returned null.\n"
+                "       The portal may be down or the API has changed."
+            )
+
+        edges = search.get("edges") or []
+        if not edges:
+            break
+
+        for edge in edges:
+            nodes.append(edge["node"])
+
+        page_info = search.get("pageInfo") or {}
+        after = page_info.get("endCursor")
+        page_count = page_info.get("pageCount") or 1
+        if not after or page_count <= 1:
+            break
+
+    return nodes
+
+
+# --------------------------------------------------------------------------
+# person email (not available via the search API)
+# --------------------------------------------------------------------------
+
+def fetch_person_email(slug, lang="en"):
+    """Fetch a person's email from their researcher-portal page.
+
+    The search API does not return email addresses. Each person's page has
+    the address embedded in its __NEXT_DATA__ JSON, under
+    pageContent.organisationAssociations[].emails[].emailAddress.
+    """
+    url = PORTAL_BASE.format(lang=lang) + "/persons/" + slug
+    page = try_fetch(url)
+    if not page:
+        return ""
+    m = re.search(
+        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+        page, re.S)
+    if not m:
+        return ""
+    try:
+        data = json.loads(m.group(1))
+    except (json.JSONDecodeError, ValueError):
+        return ""
+    pc = (data.get("props") or {}).get("pageProps", {}).get("pageContent", {})
+    for assoc in pc.get("organisationAssociations") or []:
+        for email in assoc.get("emails") or []:
+            addr = email.get("emailAddress", "")
+            if addr:
+                return addr
+    return ""
+
+
+# --------------------------------------------------------------------------
+# portraits and monograms
+# --------------------------------------------------------------------------
 
 def monogram(name, slug):
-    """An initials avatar for people with no portrait in Pure."""
+    """An initials avatar for people with no portrait in the portal."""
     words = [w for w in re.split(r"[\s-]+", name) if w]
     initials = (words[0][0] + words[-1][0]).upper() if len(words) > 1 else \
                (words[0][:2].upper() if words else "?")
@@ -258,26 +399,33 @@ def monogram(name, slug):
     )
 
 
-def save_portrait(name, url, slug, want_photos, write=True):
-    """Return a site-relative image path for this person, or '' if we have none."""
+def save_portrait(name, image_url, slug, want_photos, write=True):
+    """Return a site-relative image path for this person, or '' if we have none.
+
+    image_url is the direct portrait URL from the GraphQL API (already sized
+    to PHOTO_WIDTH), so unlike the old Pure script no per-person page fetch is
+    needed to find it.
+    """
     if not write:
         # --dry-run: report the monogram path without touching the filesystem
         return "%s/%s.svg" % (PHOTO_REL, slug)
 
     os.makedirs(PHOTO_DIR, exist_ok=True)
 
-    if want_photos and url:
-        page = try_fetch(url)
-        if page:
-            src = portrait_url(page)
-            if src:
-                blob = try_fetch(src, binary=True)
-                # guard against an error page being saved as a .jpg
-                if blob and len(blob) > 1024 and blob[:2] == b"\xff\xd8":
-                    dest = os.path.join(PHOTO_DIR, slug + ".jpg")
-                    with open(dest, "wb") as fh:
-                        fh.write(blob)
-                    return "%s/%s.jpg" % (PHOTO_REL, slug)
+    if want_photos and image_url:
+        blob = try_fetch(image_url, binary=True)
+        if blob and len(blob) > 1024:
+            if blob[:2] == b"\xff\xd8":
+                ext = ".jpg"
+            elif blob[:8] == b"\x89PNG\r\n\x1a\n":
+                ext = ".png"
+            else:
+                ext = ""
+            if ext:
+                dest = os.path.join(PHOTO_DIR, slug + ext)
+                with open(dest, "wb") as fh:
+                    fh.write(blob)
+                return "%s/%s%s" % (PHOTO_REL, slug, ext)
 
     dest = os.path.join(PHOTO_DIR, slug + ".svg")
     with open(dest, "w", encoding="utf-8") as fh:
@@ -286,9 +434,9 @@ def save_portrait(name, url, slug, want_photos, write=True):
 
 
 def person_slug(url):
-    """'https://pure.itu.dk/en/persons/paolo-burelli/' -> 'paolo-burelli'.
+    """'https://researcher.itu.dk/p/en/persons/paolo-burelli' -> 'paolo-burelli'.
 
-    Pure appends a numeric suffix when two people share a slug
+    The portal appends a numeric suffix when two people share a slug
     ('...-hristova-3'), so that is trimmed before comparing.
     """
     slug = urllib.parse.unquote(url or "").rstrip("/").rsplit("/", 1)[-1].lower()
@@ -309,25 +457,11 @@ def is_coordinator(name, url):
     return coordinator_rank(name, url) < len(COORDINATORS)
 
 
-def item_year(item):
-    """Best-effort publication year, for grouping."""
-    for tag in ("{http://purl.org/dc/elements/1.1/}date", "pubDate"):
-        raw = item.findtext(tag)
-        if not raw:
-            continue
-        m = re.search(r"(19|20)\d{2}", raw)
-        if m:
-            return m.group(0)
-    return "Undated"
-
-
-def parse_items(xml_text):
-    try:
-        root = ET.fromstring(xml_text)
-    except ET.ParseError as e:
-        raise SystemExit("error: feed was not valid XML (%s). Pure may have "
-                         "returned an error page instead." % e)
-    return root.findall("./channel/item")
+def node_year(node):
+    """Best-effort publication/dataset year, for grouping."""
+    date = node.get("publicationDate") or node.get("publicationAvailableDate") or ""
+    m = re.search(r"(19|20)\d{2}", date)
+    return m.group(0) if m else "Undated"
 
 
 # --------------------------------------------------------------------------
@@ -840,25 +974,211 @@ def render_news(cards, source_url, want_photos=True, write=True, follow_links=Tr
 # renderers -- one per feed, each returning a Markdown string
 # --------------------------------------------------------------------------
 
-def parse_record(item):
-    """One publication or dataset out of a Pure feed item."""
-    desc = item.findtext("description") or ""
-    title, url = parse_title(desc)
+def parse_record(node):
+    """One publication or dataset out of a GraphQL search node."""
+    lang_slug = "en"   # the URL language for links; kept fixed for now
 
-    # everything between the title and the type line is the citation
-    rest = desc.split("</h3>", 1)[1] if "</h3>" in desc else desc
-    rest = re.sub(r'<p class="type">.*?</p>', "", rest, flags=re.S)
-    rest = re.sub(r'<p class="links-doi">.*?</p>', "", rest, flags=re.S)
+    if node.get("__typename") == "ResearchOutputNode":
+        title = node.get("title") or ""
+        slug = node.get("slug") or ""
+        url = PORTAL_BASE.format(lang=lang_slug) + "/research-outputs/" + slug
 
-    return {
-        "title": title or (item.findtext("title") or "").strip(),
-        "url": url or (item.findtext("link") or "").strip(),
-        "citation": strip_tags(rest).strip().strip(",;").strip(),
-        "type": parse_type(desc), "dois": collect_dois(desc),
-    }
+        # Citation: use the Harvard formatted citation, falling back to APA.
+        citation = ""
+        for fmt in ("harvard", "apa", "vancouver"):
+            for c in node.get("formattedCitations") or []:
+                if c.get("format") == fmt:
+                    citation = strip_tags(c.get("citation", ""))
+                    break
+            if citation:
+                break
+
+        # Type: "Research output: {parent} › {child}"
+        type_parts = []
+        parent = (node.get("type") or {}).get("parent") or {}
+        if parent.get("displayName", {}).get("value"):
+            type_parts.append(parent["displayName"]["value"])
+        child = (node.get("type") or {}).get("displayName", {}).get("value", "")
+        if child:
+            type_parts.append(child)
+        type_str = "Research output: " + " \u203a ".join(type_parts) if type_parts else ""
+
+        # DOIs and electronic-version links.  The portal's doi field can be
+        # either a publisher DOI (10.1109/...) or a preprint DOI (arXiv, OSF).
+        # Preprint DOIs and open-access document links are not shown separately
+        # -- the citation already carries an "Available at:" link to the open
+        # access version.  When the portal only has a preprint DOI (or none at
+        # all), Crossref is queried by title to find the publisher's DOI.
+        dois, seen_urls = [], set()
+        doi_node = node.get("doi")
+        if doi_node and doi_node.get("doi"):
+            d = doi_node["doi"]
+            if not is_preprint_doi(d):
+                dois.append((d, "https://doi.org/" + d))
+                seen_urls.add("https://doi.org/" + d)
+
+        # If no publisher DOI was found, try Crossref by title.
+        if not dois:
+            cr_doi = crossref_lookup(title)
+            if cr_doi:
+                dois.append((cr_doi, "https://doi.org/" + cr_doi))
+
+        return {"title": title, "url": url, "citation": citation,
+                "type": type_str, "dois": dois}
+
+    if node.get("__typename") == "DatasetNode":
+        title = (node.get("datasetTitle") or {}).get("value", "")
+        slug = node.get("slug") or ""
+        url = PORTAL_BASE.format(lang=lang_slug) + "/datasets/" + slug
+
+        # Citation: "Author (Role), Author (Role), ..., Publisher, Date"
+        parts = []
+        for pa in node.get("personAssociations") or []:
+            name = pa.get("fullName", "")
+            role = (pa.get("role") or {}).get("displayName", {}).get("value", "")
+            if role:
+                parts.append("%s (%s)" % (name, role))
+            else:
+                parts.append(name)
+        citation = ", ".join(parts)
+        pub = node.get("publisher") or {}
+        if pub.get("name"):
+            citation += ", " + pub["name"]
+        date = node.get("publicationAvailableDate", "")
+        if date:
+            citation += ", " + format_date(date)
+
+        type_str = (node.get("type") or {}).get("displayName", {}).get("value", "")
+
+        dois = []
+        doi_node = node.get("doi")
+        if doi_node and doi_node.get("doi"):
+            d = doi_node["doi"]
+            if not is_preprint_doi(d):
+                dois.append((d, "https://doi.org/" + d))
+
+        return {"title": title, "url": url, "citation": citation,
+                "type": type_str, "dois": dois}
+
+    return {"title": "", "url": "", "citation": "", "type": "", "dois": []}
 
 
-def render_by_year(items, source_url, noun):
+# Preprint DOI prefixes whose DOI is the open-access version, not the
+# publisher's record.  Links to these are shown under "Open access:" rather
+# than "DOI:" so the latter always refers to the publisher.
+PREPRINT_DOI_PREFIXES = (
+    "10.48550/arxiv.",      # arXiv
+    "10.31219/osf.io/",     # Open Science Framework
+)
+
+
+def is_preprint_doi(doi):
+    return doi.lower().startswith(PREPRINT_DOI_PREFIXES)
+
+
+# --------------------------------------------------------------------------
+# Crossref lookup: find the publisher DOI for a paper that only has a
+# preprint DOI (arXiv, OSF) or none at all.  The Crossref REST API is
+# queried by title; the best match is accepted when its title is close
+# enough (fuzzy ratio >= 0.85, or one title is a prefix of the other, which
+# handles Crossref's tendency to truncate long titles).  Preprint DOIs
+# returned by Crossref are ignored -- only publisher DOIs are used.
+# --------------------------------------------------------------------------
+
+import difflib
+
+CROSSREF_URL = "https://api.crossref.org/works"
+TITLE_MATCH_THRESHOLD = 0.85
+
+# Publishers whose DOI prefix identifies them as an archival publisher
+# (as opposed to a preprint server).  Anything not starting with a
+# preprint prefix is treated as a publisher DOI.
+PUBLISHER_DOI_PREFIXES = (
+    "10.1109/",     # IEEE
+    "10.1145/",     # ACM
+    "10.1007/",     # Springer
+    "10.1016/",     # Elsevier / ScienceDirect
+    "10.1002/",     # Wiley
+    "10.1080/",     # Taylor & Francis / Informa
+    "10.1063/",     # AIP
+    "10.1364/",     # Optica / OSA
+    "10.1038/",     # Nature
+    "10.1126/",     # Science
+    "10.34190/",    # Academic Conferences International
+    "10.1201/",     # CRC Press / Chapman & Hall
+    "10.4230/",     # Dagstuhl
+    "10.1101/",     # bioRxiv / medRxiv (preprint, but sometimes registered)
+    "10.7554/",     # eLife
+    "10.1371/",     # PLOS
+)
+
+_CROSSREF_CACHE = {}
+
+
+def title_similarity(a, b):
+    """Fuzzy title match, treating truncation (one title a prefix of the
+    other) as a strong signal -- Crossref often shortens long titles."""
+    a = (a or "").lower().strip()
+    b = (b or "").lower().strip()
+    ratio = difflib.SequenceMatcher(None, a, b).ratio()
+    if ratio < TITLE_MATCH_THRESHOLD and min(len(a), len(b)) > 20:
+        if a.startswith(b) or b.startswith(a):
+            ratio = 0.90
+    return ratio
+
+
+def crossref_lookup(title):
+    """Return the publisher DOI for *title*, or '' if none is found.
+
+    Queries the Crossref REST API, keeps the result whose title best matches,
+    and accepts it when the similarity is at least TITLE_MATCH_THRESHOLD.
+    Preprint DOIs (arXiv, OSF, SSRN) are skipped so the caller only gets a
+    real publisher DOI back.  Results are cached for the run.
+    """
+    if not title or title in _CROSSREF_CACHE:
+        return _CROSSREF_CACHE.get(title, "")
+
+    qs = urllib.parse.urlencode({"query.bibliographic": title, "rows": "10"})
+    req = urllib.request.Request(
+        CROSSREF_URL + "?" + qs,
+        headers={
+            "User-Agent": "BrainLabUpdater/1.0 (mailto:stehe@itu.dk)",
+            "Accept": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as res:
+            data = json.loads(res.read())
+    except Exception:
+        _CROSSREF_CACHE[title] = ""
+        return ""
+
+    items = (data.get("message") or {}).get("items") or []
+    best_doi = ""
+    best_ratio = 0
+    for item in items:
+        item_title = (item.get("title") or [""])[0]
+        ratio = title_similarity(title, item_title)
+        if ratio < best_ratio:
+            continue
+        doi = item.get("DOI", "")
+        if not doi or is_preprint_doi(doi):
+            continue
+        # Skip SSRN (Social Science Research Network) -- it's a preprint
+        if doi.lower().startswith("10.2139/ssrn."):
+            continue
+        best_ratio = ratio
+        best_doi = doi
+
+    if best_ratio >= TITLE_MATCH_THRESHOLD:
+        _CROSSREF_CACHE[title] = best_doi
+        return best_doi
+
+    _CROSSREF_CACHE[title] = ""
+    return ""
+
+
+def render_by_year(nodes, source_url, noun):
     """Records under one heading per year, newest first.
 
     The year headings are not only for browsing: they are the h2 between the
@@ -867,8 +1187,8 @@ def render_by_year(items, source_url, noun):
     they have missed a level.
     """
     groups = {}
-    for item in items:
-        groups.setdefault(item_year(item), []).append(parse_record(item))
+    for node in nodes:
+        groups.setdefault(node_year(node), []).append(parse_record(node))
 
     lines = []
     for year in sorted(groups, key=lambda y: (y != "Undated", y), reverse=True):
@@ -878,35 +1198,49 @@ def render_by_year(items, source_url, noun):
     return finish(lines, source_url, sum(len(v) for v in groups.values()), noun)
 
 
-def render_publications(items, source_url):
-    return render_by_year(items, source_url, "publication")
+def render_publications(nodes, source_url):
+    return render_by_year(nodes, source_url, "publication")
 
 
-def render_datasets(items, source_url):
-    return render_by_year(items, source_url, "dataset")
+def render_datasets(nodes, source_url):
+    return render_by_year(nodes, source_url, "dataset")
 
 
-def render_people(items, source_url, want_photos=True, write=True):
+def render_people(nodes, source_url, want_photos=True, write=True, lang="en"):
     lines = []
     coordinators, members = [], []
 
-    for item in items:
-        desc = item.findtext("description") or ""
-        name, url = parse_title(desc)
-        name = name or (item.findtext("title") or "").strip()
-        url = url or (item.findtext("link") or "").strip()
+    for node in nodes:
+        name = node.get("fullName") or ""
+        slug = node.get("slug") or ""
+        url = PORTAL_BASE.format(lang=lang) + "/persons/" + slug
 
-        email = decode_pure_email(desc)
-        orgs = [strip_tags(li) for li in
-                re.findall(r"<li>(.*?)</li>",
-                           first_group(r'<ul class="relations organisations">(.*?)</ul>', desc),
-                           re.S)]
-        # Pure's <p class="type"> for a person is just "Person: VIP" / "Person:
-        # Guest" -- an internal staff category, not useful on a contacts page.
-        person = {"name": name, "url": url, "email": email,
-                  "orgs": [o for o in orgs if o],
-                  "photo": save_portrait(name, url, ascii_slug(person_slug(url)) or slugish(name),
-                                         want_photos, write)}
+        email = fetch_person_email(slug, lang) if write else ""
+
+        orgs = []
+        for assoc in node.get("organisationAssociations") or []:
+            org_name = (assoc.get("organisation") or {}).get("name", {}).get("value", "")
+            job = (assoc.get("jobDisplayName") or {}).get("value", "")
+            if org_name and job:
+                orgs.append("%s - %s" % (org_name, job))
+            elif org_name:
+                orgs.append(org_name)
+
+        # Portrait URL from the API (already sized to PHOTO_WIDTH).
+        portrait_url = ""
+        portrait = node.get("portrait")
+        if portrait and portrait.get("image"):
+            rendition = portrait["image"].get("rendition") or {}
+            if rendition.get("url"):
+                portrait_url = "https://researcher.itu.dk" + rendition["url"]
+
+        person = {
+            "name": name, "url": url, "email": email,
+            "orgs": [o for o in orgs if o],
+            "photo": save_portrait(name, portrait_url,
+                                   ascii_slug(person_slug(url)) or slugish(name),
+                                   want_photos, write),
+        }
 
         (coordinators if is_coordinator(name, url) else members).append(person)
 
@@ -920,7 +1254,7 @@ def render_people(items, source_url, want_photos=True, write=True):
         for person in group:
             lines.extend(person_block(person))
 
-    return finish(lines, source_url, len(items), "person")
+    return finish(lines, source_url, len(nodes), "person")
 
 
 def person_block(person):
@@ -935,7 +1269,7 @@ def person_block(person):
     if person["email"]:
         out.append("[%s](mailto:%s)\n" % (person["email"], person["email"]))
     if person["orgs"]:
-        out.append("%s\n" % md_escape(" · ".join(person["orgs"])))
+        out.append("%s\n" % md_escape(" \u00b7 ".join(person["orgs"])))
     return out
 
 
@@ -945,7 +1279,7 @@ def record_block(rec):
     out.append("### [%s](%s)\n" % (md_escape(rec["title"]), rec["url"]) if rec["url"]
                else "### %s\n" % md_escape(rec["title"]))
     if rec["citation"]:
-        out.append("%s\n" % md_escape(rec["citation"]))
+        out.append("%s\n" % rec["citation"])
     if rec["dois"]:
         out.append("DOI: %s\n" % ", ".join("[%s](%s)" % (md_escape(l), u) for l, u in rec["dois"]))
     if rec["type"]:
@@ -967,29 +1301,24 @@ def finish(lines, source_url, count, noun):
     return header + "\n" + "\n".join(lines).rstrip() + "\n"
 
 
-RENDERERS = {
-    "publications": render_publications,
-    "datasets": render_datasets,
-}
-
-
 # --------------------------------------------------------------------------
 # main
 # --------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Refresh publications, datasets and people from ITU Pure, and news from LinkedIn.")
+        description="Refresh publications, datasets and people from the ITU "
+                    "Researcher Portal, and news from LinkedIn.")
     ap.add_argument("feeds", nargs="*", default=[], metavar="FEED",
                     help="which feeds to refresh: %s (default: all)" % ", ".join(sorted(FEEDS)))
     ap.add_argument("--lang", default="en", choices=["en", "da"],
-                    help="Pure portal language (default: en)")
+                    help="Researcher Portal language (default: en)")
     ap.add_argument("--dry-run", action="store_true",
                     help="print what would be written without touching files")
     ap.add_argument("--no-photos", action="store_true",
-                    help="skip fetching images: portraits (one extra request per "
-                         "person, everyone gets an initials monogram instead) and "
-                         "the photos attached to LinkedIn posts")
+                    help="skip fetching images: portraits (everyone gets an "
+                         "initials monogram instead) and the photos attached "
+                         "to LinkedIn posts")
     ap.add_argument("--linkedin-url", default=LINKEDIN_URL, metavar="URL",
                     help="company page to read the news from (default: %s)" % LINKEDIN_URL)
     args = ap.parse_args()
@@ -1005,13 +1334,12 @@ def main():
     failures = 0
     for name in selected:
         spec = FEEDS[name]
-        url = args.linkedin_url if spec.get("linkedin") else \
-            BASE.format(lang=args.lang, section=spec["section"])
         dest = os.path.join(OUT_DIR, spec["out"])
 
-        print("fetching %-13s %s" % (name, url))
+        print("fetching %-13s %s" % (name, SOURCE_URL))
         try:
             if spec.get("linkedin"):
+                url = args.linkedin_url
                 items = split_updates(fetch(url))
                 if not items:
                     raise SystemExit(
@@ -1024,14 +1352,16 @@ def main():
                                        want_photos=not args.no_photos,
                                        write=not args.dry_run,
                                        follow_links=not args.dry_run)
-            elif name == "people":
-                items = parse_items(fetch(url))
-                markdown = render_people(items, url,
-                                         want_photos=not args.no_photos,
-                                         write=not args.dry_run)
             else:
-                items = parse_items(fetch(url))
-                markdown = RENDERERS[name](items, url)
+                nodes = gql_search(spec["content_type"], spec["order_by"], args.lang)
+                if name == "people":
+                    markdown = render_people(nodes, SOURCE_URL,
+                                            want_photos=not args.no_photos,
+                                            write=not args.dry_run,
+                                            lang=args.lang)
+                else:
+                    markdown = RENDERERS[name](nodes, SOURCE_URL)
+                items = nodes
         except SystemExit as e:
             print("  %s" % e, file=sys.stderr)
             failures += 1
@@ -1054,6 +1384,12 @@ def main():
         return 1
     print("\nDone. Reload the site to see the changes.")
     return 0
+
+
+RENDERERS = {
+    "publications": render_publications,
+    "datasets": render_datasets,
+}
 
 
 if __name__ == "__main__":
