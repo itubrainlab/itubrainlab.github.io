@@ -1,7 +1,16 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-09-28 10:50 UTC
-     7 updates -->
+     Written by scripts/update.py on 2026-09-28 11:52 UTC
+     8 updates -->
+
+## The ITU brAIn lab will host a g.tec medical engineering GmbH - NEVER STOP RECORDING…
+
+*September 28, 2026*
+
+The [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) will host a [g.tec medical engineering GmbH - NEVER STOP RECORDING](https://at.linkedin.com/company/gtec-medical-engineering)  workshop on EEG and BCI. The workshop is aimed at students and researchers and there will be a lot of hand-on experience with devices, recording and programming. We are finalising the registrations but there are a few spots left.
+
+![](content/media/news/authors/burelli.jpg)
+*Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7510303374781861888/)*
 
 ## The poster is ready for ECCV 2026! 🎉
 
