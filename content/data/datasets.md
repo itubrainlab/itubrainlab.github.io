@@ -1,13 +1,13 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://researcher.itu.dk/p/en/organisations/brain-lab
-     Written by scripts/update.py on 2026-09-28 11:52 UTC
+     Written by scripts/update.py on 2026-10-05 11:24 UTC
      3 datasets -->
 
 ## 2025
 
 ### [Atari Games Challenge Pilot Dataset](https://researcher.itu.dk/p/en/datasets/atari-games-challenge-pilot-dataset)
 
-Oleg Jarma Montoya (Creator), Erica Manca (Creator), Thomas Vase Schultz Volden (Creator), Paolo Burelli (Creator), IT University of Copenhagen, 24 Nov 2025
+Oleg Jarma Montoya (Creator), Erica Manca (Creator), Thomas Vase Schultz Volden (Creator), Paolo Burelli (Creator), IT University of Copenhagen, 24/11/2025
 
 DOI: [10.5281/zenodo.17699259](https://doi.org/10.5281/zenodo.17699259)
 
@@ -15,7 +15,7 @@ DOI: [10.5281/zenodo.17699259](https://doi.org/10.5281/zenodo.17699259)
 
 ### [EEG Study of the Uncanny Valley Phenomenon](https://researcher.itu.dk/p/en/datasets/eeg-study-of-the-uncanny-valley-phenomenon)
 
-Mihaela Hristova (Creator), Laurits Dixen (Creator), Paolo Burelli (Creator), Emil Højrup Vinther (Contributor), ZENODO, 13 Feb 2025
+Mihaela Hristova (Creator), Laurits Dixen (Creator), Paolo Burelli (Creator), Emil Højrup Vinther (Contributor), ZENODO, 13/02/2025
 
 DOI: [10.5281/zenodo.14864689](https://doi.org/10.5281/zenodo.14864689)
 
@@ -23,7 +23,7 @@ DOI: [10.5281/zenodo.14864689](https://doi.org/10.5281/zenodo.14864689)
 
 ### [AFFEC Multimodal Dataset](https://researcher.itu.dk/p/en/datasets/affec-multimodal-dataset)
 
-Meisam Jamshidi Seikavandi (Creator), Laurits Dixen (Creator), Paolo Burelli (Creator), ZENODO, 3 Feb 2025
+Meisam Jamshidi Seikavandi (Creator), Laurits Dixen (Creator), Paolo Burelli (Creator), ZENODO, 03/02/2025
 
 DOI: [10.5281/zenodo.14794876](https://doi.org/10.5281/zenodo.14794876)
 
