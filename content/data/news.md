@@ -1,7 +1,21 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-10-05 11:24 UTC
+     Written by scripts/update.py on 2026-10-08 19:09 UTC
      9 updates -->
+
+## Had a great week at the 28th ACM International Conference on Multimodal Interaction…
+
+*October 8, 2026*
+
+Had a great week at the 28th ACM International Conference on Multimodal Interaction, ICMI 2026 in Naples. Great location, amazing research and amazing food for my first ICMI experience :)  
+Lots of interesting talks on AI, affective computing and cognitive modelling.  
+Shout out to [Meisam Jamshidi Seikavandi](https://dk.linkedin.com/in/meisam-jamshidi-seikavandi) who will be representing the [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) and [GN Group](https://dk.linkedin.com/company/gn-store-nord) at the workshops. So sorry I can't be there :(  
+[Meisam](https://dk.linkedin.com/in/meisam-jamshidi-seikavandi) will be presenting our work titled Pseudo-Label Augmentation for Affect Sensing in Small Collaborative Groups, you can find the paper at [dl.acm.org/doi/full/10.1145/3776591.3837044](https://dl.acm.org/doi/full/10.1145/3776591.3837044).
+
+![](content/media/news/7514038547713118211-1.jpg)
+
+![](content/media/news/authors/burelli.jpg)
+*Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7514038547713118211-DNwN)*
 
 ## The ITU brAIn lab will host a g.tec medical engineering GmbH - NEVER STOP RECORDING…
 
@@ -151,18 +165,3 @@ Det foregår onsdag den 5. november kl. 9.45.
 *Posted by [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7389552909862195201-U87W)*
 
 </div>
-
-## Congratulations Meisam Jamshidi Seikavandi!
-
-*October 6, 2025*
-
-> ![](content/media/news/authors/burelli.jpg)
-> **[Paolo Burelli](https://dk.linkedin.com/in/burelli)**
->
-> I'm proud to announce that Thursday [Meisam Jamshidi Seikavandi](https://dk.linkedin.com/in/meisam-jamshidi-seikavandi) will defend his PhD thesis. It has been an honour and a pleasure to be Meisam's supervisor. He is a brilliant member of the [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) team, and I'm looking forward to continuing to work with him in the future. Congratulations Meisam!  
-> [en.itu.dk/Research/PhD-Programme/PhD-Defences/PhD-Defences-2…](https://en.itu.dk/Research/PhD-Programme/PhD-Defences/PhD-Defences-2025/October/Meisam-Jamshidi-Seikavandi?utm_source=MarketingPlatform&utm_medium=email&utm_campaign=Week+41+Staff&utm_content=67429008)
->
-> [Meisam Jamshidi Seikavandi](https://en.itu.dk/Research/PhD-Programme/PhD-Defences/PhD-Defences-2025/October/Meisam-Jamshidi-Seikavandi)
-
-![](content/media/news/authors/itu-brain-lab.jpg)
-*Posted by [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) · [view on LinkedIn](https://www.linkedin.com/posts/itu-brain-lab_meisam-jamshidi-seikavandi-activity-7380853929707978752-vY5E)*
