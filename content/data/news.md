@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-10-08 19:09 UTC
+     Written by scripts/update.py on 2026-10-12 11:54 UTC
      9 updates -->
 
 ## Had a great week at the 28th ACM International Conference on Multimodal Interaction…

@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://researcher.itu.dk/p/en/organisations/brain-lab
-     Written by scripts/update.py on 2026-10-08 19:09 UTC
+     Written by scripts/update.py on 2026-10-12 11:54 UTC
      10 persons -->
 
 ## Lab Coordinators
