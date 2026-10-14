@@ -1,7 +1,33 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-10-12 11:54 UTC
-     9 updates -->
+     Written by scripts/update.py on 2026-10-14 15:24 UTC
+     10 updates -->
+
+## A great week at ACM ICMI 2026 in beautiful Naples!
+
+*October 12, 2026*
+
+On Friday, I presented our paper, Pseudo-Label Augmentation for Affect Sensing in Small Collaborative Groups, at the Collective States workshop. Building on GroupAffect-4, we explore how to learn from sparse self-reported affect labels without repeatedly interrupting the conversation to ask participants how they feel.
+
+It was also great to spend time with [Paolo Burelli](https://dk.linkedin.com/in/burelli) and [Shan Ahmed Shaffi](https://dk.linkedin.com/in/shanahmedshaffi), who presented our other paper, Backchannel-Aware Transcription for Multiparty Conversation: ASR Omissions, Acoustic Recovery, and Cross-Corpus Transfer. This work looks at the small listener responses, such as “mm-hmm” and “yeah”, that automatic transcription can miss.
+
+The conference was a great opportunity to connect with the community, discuss ideas and get fresh inspiration for our upcoming Mega Capture of multiparty conversations at the CogniSense Lab at GN Hearing.
+
+Many thanks to all my co-authors across these two papers: [Paolo Burelli](https://dk.linkedin.com/in/burelli), [Shan Ahmed Shaffi](https://dk.linkedin.com/in/shanahmedshaffi), [Tanya Ignatenko](https://nl.linkedin.com/in/tanya-ignatenko-373bb82), [Fabricio Batista Narcizo](https://dk.linkedin.com/in/fabricionarcizo), Anna Obara, [Alice Modica](https://dk.linkedin.com/in/alice-modica-a18589302), [Jesper Bünsow Boldt](https://dk.linkedin.com/in/jbboldt) and [Andrew Dittberner](https://www.linkedin.com/in/andrew-dittberner-5233783).And thank you to [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab), [GN Advanced Science](https://dk.linkedin.com/showcase/gn-advanced-science/) and [Innovation Fund Denmark](https://dk.linkedin.com/company/danmarksinnovationsfond) for supporting this work.
+
+📄 Pseudo-Label Augmentation paper  
+[dl.acm.org/doi/abs/10.1145/3776591.3837044](https://dl.acm.org/doi/abs/10.1145/3776591.3837044)  
+📄 Backchannel-Aware Transcription paper  
+[dl.acm.org/doi/abs/10.1145/3776591.3837049](https://dl.acm.org/doi/abs/10.1145/3776591.3837049)  
+📊 GroupAffect-4 dataset  
+[arxiv.org/abs/2605.19765](https://arxiv.org/abs/2605.19765)  
+[GN Group](https://dk.linkedin.com/company/gn-store-nord) [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/)  
+\#ICMI2026 \#MultimodalAI \#AffectiveComputing \#GroupAffect4 \#CogniSense
+
+![](content/media/news/7515336931556380672-1.jpg)
+
+![](content/media/news/authors/meisam-jamshidi-seikavandi.jpg)
+*Posted by [Meisam Jamshidi Seikavandi](https://dk.linkedin.com/in/meisam-jamshidi-seikavandi) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7515336931556380672-y1tn)*
 
 ## Had a great week at the 28th ACM International Conference on Multimodal Interaction…
 

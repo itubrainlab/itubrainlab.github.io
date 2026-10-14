@@ -230,6 +230,17 @@ img { max-width: 100%; height: auto; }
 
 .entry-content img { border-radius: 4px; display: block; }
 
+/* Looping background-style video on the home page. */
+.entry-content video.hero-video {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin: 24px 0;
+  box-shadow: var(--card-shadow);
+}
+
 /* A paragraph holding several images in a row becomes a gallery grid. Write
    the images on consecutive lines with no blank line between them. */
 .entry-content p:has(img + img) {

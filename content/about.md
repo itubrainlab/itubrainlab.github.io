@@ -5,7 +5,9 @@ sidebar: news
 
 The ITU brAIn lab is a space and a group of people with a common interest in research and education at the crossroad between **machine learning**, **psychophysiology**, **neuroscience** and **cognition**. Within the lab, researchers and students collaborate to develop **computational models** of different aspects of the human mind and conduct **experiments** to a) capture and synthesise the user experience in complex digital media like **video games** and **virtual reality**, b) investigate hypotheses about the **mechanistic** underpinnings of **human cognition** like in **speech perception** and **language processing**, and c) develop frameworks that integrate such mechanisms into machine learning and AI.
 
-![The brAIn lab team](assets/img/team.jpg)
+<video class="hero-video" autoplay loop muted playsinline preload="auto" aria-label="The brAIn lab team">
+  <source src="assets/video/16%20sek.mp4" type="video/mp4">
+</video>
 
 How to measure difficulty in games? How to quantify learning? How can we model and predict human emotions, neurodiversity, speech understanding, or action in human-computer or human-human interaction? How can we integrate the human cognitive mechanisms as inductive bias in AI frameworks? And how can we build better interaction designs and frameworks? These are among the many questions that we try to answer in the lab through our experiments and models.
 
