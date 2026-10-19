@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-10-14 15:24 UTC
+     Written by scripts/update.py on 2026-10-19 09:50 UTC
      10 updates -->
 
 ## A great week at ACM ICMI 2026 in beautiful Naples!
