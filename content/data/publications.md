@@ -1,9 +1,17 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://researcher.itu.dk/p/en/organisations/brain-lab
-     Written by scripts/update.py on 2026-10-19 09:51 UTC
-     22 publications -->
+     Written by scripts/update.py on 2026-10-26 10:03 UTC
+     23 publications -->
 
 ## 2026
+
+### [Pseudo-Label Augmentation for Affect Sensing in Small Collaborative Groups](https://researcher.itu.dk/p/en/research-outputs/fqsyphpqbtfy-0b8b5285-4e03-4b87-853b-a53fc87be52e)
+
+Seikavandi, M.J., Ignatenko, T., Batista Narcizo, F., Burelli, P., Bünsow Boldt, J. and Burke Dittberner, A. (2026) ‘Pseudo-Label Augmentation for Affect Sensing in Small Collaborative Groups’, in Companion of the INTERNATIONAL CONFERENCE ON MULTIMODAL INTERACTION (ICMI companion '26, Presented at the 28th International Conference on Multimodal Interaction, Association for Computing Machinery. Available at: https://doi.org/10.1145/3776591.3837044.
+
+DOI: [10.1145/3776591.3837044](https://doi.org/10.1145/3776591.3837044)
+
+*Research output: Conference Article in Proceeding or Book/Report chapter › Article in proceedings*
 
 ### [Turning the AI Microscope on the Brain](https://researcher.itu.dk/p/en/research-outputs/turning-the-ai-microscope-on-the-brain)
 
