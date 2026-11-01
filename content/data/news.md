@@ -1,7 +1,48 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-10-26 10:03 UTC
-     10 updates -->
+     Written by scripts/update.py on 2026-11-01 21:41 UTC
+     9 updates -->
+
+<div lang="da">
+
+## Ses vi til Digital Tech Summit? 🤗 Forskere fra ITU står klar til at belyse nogle af de…
+
+*October 27, 2026*
+
+Ses vi til [Digital Tech Summit](https://dk.linkedin.com/company/digital-tech-summit)? 🤗 Forskere fra ITU står klar til at belyse nogle af de vigtigste teknologiske spørgsmål i vores tid ✨
+
+Det sker til årets største tech-event, som finder sted i næste uge.
+
+Her samles forskere, virksomheder, beslutningstagere, startups og offentlige aktører omkring de nyeste tendenser inden for AI, data, cybersikkerhed, kvanteteknologi og digital innovation.
+
+(Pssst! Det er helt gratis at deltage...)
+
+Vanen tro deltager ITU med et hav af spændende indlæg og debatter 👏
+
+Du kan bl.a. møde:
+
+🧑💻 [Oliver Krancher](https://dk.linkedin.com/in/oliver-krancher-04736234) til en talk om GenAI i softwareudvikling. Har vi at gøre med et produktivitetsboost, eller er der også en risiko for tab af mening?
+
+📈 [Zoi Kaoudi](https://dk.linkedin.com/in/zoi-kaoudi-96a4749) og Martin Hentschel med ny viden om, hvordan data- og AI-systemer kan lære at optimere sig selv automatisk for at blive mere effektive og energibesparende.
+
+🚴 [Michael Szell](https://dk.linkedin.com/in/michael-szell), der vil fortælle om BikeNetKit: et open source-værktøj, der bruger algoritmer til at analysere og planlægge cykelnetværk i byer. Formålet er at gøre beslutninger om cykelinfrastruktur mere databaserede og tilgængelige, så byer lettere kan fremme bæredygtig transport.
+
+🧠 [Paolo Burelli](https://dk.linkedin.com/in/burelli) vil give et fascinerende indblik i [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab), hvor forskere undersøger grænsefladen mellem hjerner, teknologi og bevidsthed. Måske kan vi i fremtiden styre teknologi med vores tanker frem for tastatur og mus?
+
+💥 [Miguel Sicart](https://dk.linkedin.com/in/miguelsicart) med et kritisk oplæg om AI-agenter med den fabelagtige titel "How I Learned to Stop Worrying and Love Agentic AI".
+
+💁 Derudover kan du dagene igennem møde os i 𝗜𝗧𝗨-𝘀𝘁𝗮𝗻𝗱𝗲𝗻, hvor forskere og repræsentanter fra ITU's centre, labs, innovationshub og efteruddannelsesteam står klar til at fortælle om de mange muligheder for samarbejde.
+
+Få overblik over ITU's deltagelse her: [itu.dk/Om-ITU/Presse/Nyheder/2026/ITU-paa-DTS-2026](https://itu.dk/Om-ITU/Presse/Nyheder/2026/ITU-paa-DTS-2026)
+
+Vi glæder os! Kom endelig og hils på! 👋
+
+![](content/media/news/7520726266145148929-1.jpg)
+
+![](content/media/news/authors/it-university-of-copenhagen.jpg)
+*Posted by [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7520726266145148929-diR-)*
+
+</div>
 
 ## A great week at ACM ICMI 2026 in beautiful Naples!
 
@@ -131,63 +172,3 @@ Meanwhile, you can read more about it on today's [IT-Universitetet i København]
 
 ![](content/media/news/authors/burelli.jpg)
 *Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7469757117797666817-nmsN)*
-
-## Fundamental research meets innovation at the Digital Tech Summit - taking place in…
-
-*October 30, 2025*
-
-Fundamental research meets innovation at the [Digital Tech Summit](https://dk.linkedin.com/company/digital-tech-summit) - taking place in Copenhagen in less than a week!
-
-Over two days, 5 and 6 November, P1 researchers and staff are sharing how their research is making a difference, meeting societal challenges through a wide range of projects and initiatives.
-
-Swipe to see what you can look forward to 👉
-
-You'll also find us in the Startup Area, Booth 904, where we'll be partnering up with [DIREC - Digital Research Centre Denmark](https://dk.linkedin.com/company/direc-denmark), [Open Entrepreneurship DK](https://dk.linkedin.com/company/open-entrepreneurship-dk), and [Spin-outs Denmark](https://dk.linkedin.com/company/spin-outs-denmark).
-
-Join us for meet-the-speaker sessions, networking opportunities and match-making activities 💡
-
-We look forward to seeing you!
-
-🔗 [event.ing.dk/dts5/homepage](https://event.ing.dk/dts5/homepage)
-
-[Natascha Malinka Isabella Jensen](https://dk.linkedin.com/in/natascha-malinka-isabella-jensen-ba3532197), [Camilla Nørgaard Jensen, PhD](https://dk.linkedin.com/in/camilla-n%C3%B8rgaard-jensen-phd), [Aasa Feragen](https://dk.linkedin.com/in/aasaferagen), [Paolo Burelli](https://dk.linkedin.com/in/burelli), [Anders Bo Pedersen](https://dk.linkedin.com/in/andersbopedersen), [Serena Leka](https://dk.linkedin.com/in/serena-leka), [Martin Brynskov](https://dk.linkedin.com/in/brynskov), [Marianne Thellersen](https://dk.linkedin.com/in/marianne-thellersen-8041725), [Pepa Atanasova](https://dk.linkedin.com/in/pepa-atanasova-65a2b417b), [Sneha Das](https://dk.linkedin.com/in/sneha-das-533b1537), [Nicki Skafte Detlefsen](https://dk.linkedin.com/in/nicki-skafte-detlefsen), [Ken Pfeuffer](https://dk.linkedin.com/in/ken-pfeuffer-404377129), [Oline Stærke](https://dk.linkedin.com/in/oline-staerke), [Natasha Hougaard](https://dk.linkedin.com/in/natasha-hougaard/en), [Mikkel Brun Naesager](https://dk.linkedin.com/in/mikkelnaesager), [Line Clemmensen](https://dk.linkedin.com/in/lineclemmensen),  
-[Aalborg Universitet](https://dk.linkedin.com/school/aalborg-universitet/), [Aarhus Universitet](https://dk.linkedin.com/school/aarhus-university-denmark-/), [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/), [Københavns Universitet - University of Copenhagen](https://dk.linkedin.com/school/university-of-copenhagen/), [DTU - Technical University of Denmark](https://dk.linkedin.com/school/technical-university-of-denmark/), [Uddannelses- og Forskningsministeriet](https://dk.linkedin.com/company/ministry-of-science-innovation-and-higher-education), [Novo Nordisk Foundation](https://dk.linkedin.com/company/novo-nordisk-foundation), [Danmarks Grundforskningsfond / The Danish National Research Foundation](https://dk.linkedin.com/company/danmarks-grundforskningsfond), [Carlsbergfondet](https://dk.linkedin.com/company/carlsbergfondet-carlsberg-foundation), [Lundbeckfonden / Lundbeck Foundation](https://dk.linkedin.com/company/lundbeckfonden), [Villum Fonden](https://dk.linkedin.com/company/villumfonden)
-
-![](content/media/news/authors/pioneer-centre-for-ai.jpg)
-*Posted by [Pioneer Centre for AI (P1)](https://dk.linkedin.com/company/pioneer-centre-for-ai) · [view on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7389783958345027584/)*
-
-<div lang="da">
-
-## Kan kunstig intelligens forudsige menneskelig adfærd? 🤔
-
-*October 30, 2025*
-
-[Paolo Burelli](https://dk.linkedin.com/in/burelli) og hans kolleger ved [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab) arbejder i krydsfeltet mellem digital teknologi og neurovidenskab.
-
-Ved hjælp af kunstig intelligens søger de at skabe en forståelse af, hvordan den menneskelige hjerne fungerer 🧠
-
-💬 "Vi bruger maskinlæring som en linse," forklarer [Paolo Burelli](https://dk.linkedin.com/in/burelli). "Et forstørrelsesglas, en radar – noget der hjælper os med at afkode kompleksiteten i hjernesignaler og forstå, hvordan mennesker reagerer."
-
-I artiklen, som vi linker til nedenfor ⤵️, kan du læse, hvordan forskningen i praksis foregår vha. biometriske sensorer og deep learning - og om de etiske spørgsmål, det rejser.
-
-💁 På kort sigt kan forskningen bl.a. bruges til neuromarkedsføring, brugerforståelse og UX.
-
-... På længere sigt er perspektiverne radikale 🤯
-
-“Vi er der ikke endnu," forklarer [Paolo Burelli](https://dk.linkedin.com/in/burelli). "Men hvis vi kan forstå, hvordan et område af hjernen behandler information, kan vi måske en dag bygge en chip, der kan efterligne det.”
-
-Det kunne fx føre til, at man kunne simulere beskadigede dele af hjernen – som fx synscortex – med AI-drevne modeller, der genskaber tabt funktionalitet.
-
-Denne form for syntetisk kognition kan potentielt revolutionere behandlingen af hjerneskader, slagtilfælde eller neurodegenerative sygdomme 🔥
-
-\---  
-Til [Digital Tech Summit](https://dk.linkedin.com/company/digital-tech-summit) i næste uge har du mulighed for møde [Paolo Burelli](https://dk.linkedin.com/in/burelli), der vil fortælle om sin forskning i oplægget “Decoding the Brain: How AI Unlocks Human Behavior”.
-
-Det foregår onsdag den 5. november kl. 9.45.
-
-![](content/media/news/7389552909862195201-1.jpg)
-
-![](content/media/news/authors/it-university-of-copenhagen.jpg)
-*Posted by [IT-Universitetet i København](https://dk.linkedin.com/school/it-university-of-copenhagen/) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7389552909862195201-U87W)*
-
-</div>
