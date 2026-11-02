@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-11-02 12:18 UTC
+     Written by scripts/update.py on 2026-11-02 23:45 UTC
      10 updates -->
 
 ## Torben Sangild and I had a very interesting discussion on the state of emotion…
