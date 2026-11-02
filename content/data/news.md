@@ -1,7 +1,18 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://www.linkedin.com/company/itu-brain-lab
-     Written by scripts/update.py on 2026-11-01 21:41 UTC
-     9 updates -->
+     Written by scripts/update.py on 2026-11-02 12:18 UTC
+     10 updates -->
+
+## Torben Sangild and I had a very interesting discussion on the state of emotion…
+
+*November 2, 2026*
+
+[Torben Sangild](https://dk.linkedin.com/in/torben-sangild) and I had a very interesting discussion on the state of emotion recognition technologies, their applications, and how this might impact our present and future lives. If you want to know more about ER and the [ITU brAIn lab](https://dk.linkedin.com/company/itu-brain-lab)'s perspective, you can check the full article containing the interview on [Weekendavisen](https://dk.linkedin.com/company/weekendavisen) at [www.weekendavisen.dk/ideer/bag-grimassen](https://www.weekendavisen.dk/ideer/bag-grimassen)
+
+[Bag grimassen](https://www.weekendavisen.dk/ideer/bag-grimassen)
+
+![](content/media/news/authors/burelli.jpg)
+*Posted by [Paolo Burelli](https://dk.linkedin.com/in/burelli) · [view on LinkedIn](https://www.linkedin.com/posts/activity-7522989588903022592-iX91)*
 
 <div lang="da">
 
