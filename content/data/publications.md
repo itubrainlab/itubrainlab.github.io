@@ -1,6 +1,6 @@
 <!-- GENERATED FILE - do not edit by hand.
      Source: https://researcher.itu.dk/p/en/organisations/brain-lab
-     Written by scripts/update.py on 2026-11-02 23:46 UTC
+     Written by scripts/update.py on 2026-11-09 12:47 UTC
      23 publications -->
 
 ## 2026
